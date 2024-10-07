@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import news_fetcher
 import sentiment_analysis
 import os
@@ -34,9 +33,5 @@ if company_name:
 
         # Display the sentiment data
         st.write(headlines_with_sentiment)
-
-        # Downloadable CSV
-        csv = headlines_with_sentiment.to_csv(index=False)
-        st.download_button("Download Sentiment Data as CSV", csv, f"{company_name}_news_sentiment.csv")
     else:
         st.error("No news found or an error occurred while fetching the news.")
