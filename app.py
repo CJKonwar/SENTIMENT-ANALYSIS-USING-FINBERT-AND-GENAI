@@ -1,6 +1,7 @@
 import streamlit as st
 import news_fetcher
 import sentiment_analysis
+import llama2_analysis  # Make sure this import is valid
 import os
 from dotenv import load_dotenv
 
@@ -24,6 +25,9 @@ if company_name:
     if headlines_df is not None and not headlines_df.empty:
         st.write("News Headlines fetched successfully!")
         
+        # Display the fetched news headlines
+        st.dataframe(headlines_df)
+
         # Load FinBERT model
         sentiment_pipeline = sentiment_analysis.load_finbert_model()
         
@@ -33,5 +37,18 @@ if company_name:
 
         # Display the sentiment data
         st.write(headlines_with_sentiment)
+
+        # Load Llama 2 model for summarization and insights
+        st.write("Loading Llama 2 model for generating summary and insights...")
+        llama_model, llama_tokenizer = llama2_analysis.load_llama2_model()
+        
+        # Generate summary and insights
+        st.write("Generating summary and insights...")
+        summary_and_insights = llama2_analysis.generate_summary_and_insights(headlines_df, llama_model, llama_tokenizer)
+
+        # Display the summary and insights
+        st.subheader("Summary and Investment Insights:")
+        st.write(summary_and_insights)
+
     else:
         st.error("No news found or an error occurred while fetching the news.")

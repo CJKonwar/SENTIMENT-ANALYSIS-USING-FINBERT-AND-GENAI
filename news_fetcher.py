@@ -1,24 +1,24 @@
 import requests
 import pandas as pd
 
-def get_news(company_name, api_key, top_n=100):
-    # URL for News API
-    url = f'https://newsapi.org/v2/everything?q={company_name}&sortBy=publishedAt&apiKey={api_key}'
+def get_news(company_name, api_key):
+    """
+    Fetches news headlines for the given company using the News API.
     
-    # Making the request
+    Args:
+        company_name (str): The name of the company to fetch news for.
+        api_key (str): The API key for accessing the News API.
+    
+    Returns:
+        pandas.DataFrame: A DataFrame containing the news headlines and URLs.
+    """
+    url = f'https://newsapi.org/v2/everything?q={company_name}&apiKey={api_key}&pageSize=30'
     response = requests.get(url)
-    news_data = response.json()
-
-    # Check if the request was successful
-    if news_data['status'] != 'ok':
-        print("Error fetching news!")
+    
+    if response.status_code == 200:
+        articles = response.json().get('articles', [])
+        headlines = [{'Headline': article['title'], 'URL': article['url']} for article in articles]
+        return pd.DataFrame(headlines)
+    else:
+        print(f"Error fetching news: {response.status_code}")
         return None
-    
-    # Get the top 'n' news articles
-    articles = news_data['articles'][:top_n]
-    
-    # Create a DataFrame for better readability
-    headlines = [(article['title'], article['url']) for article in articles]
-    df = pd.DataFrame(headlines, columns=['Headline', 'URL'])
-    
-    return df
