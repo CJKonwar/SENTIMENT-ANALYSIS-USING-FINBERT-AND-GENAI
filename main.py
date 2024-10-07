@@ -30,10 +30,6 @@ def main(company_name):
     print("\nTop 10 News Headlines with Sentiment:")
     print(headlines_with_sentiment)
 
-    # Optionally, save the results to a CSV file
-    headlines_with_sentiment.to_csv(f'{company_name}_news_sentiment.csv', index=False)
-    print(f"Results saved to {company_name}_news_sentiment.csv")
-
 if __name__ == "__main__":
     company_name = input("Enter the company name: ")
     main(company_name)
