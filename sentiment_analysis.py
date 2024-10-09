@@ -5,16 +5,21 @@ import torch
 def load_finbert_model():
     """
     Load the FinBERT model and tokenizer for sentiment analysis.
+    If a GPU is available, it will load the model on the GPU.
     
     Returns:
     - sentiment-analysis pipeline
     """
     model_name = "yiyanghkust/finbert-tone"
     tokenizer = BertTokenizer.from_pretrained(model_name)
-    model = BertForSequenceClassification.from_pretrained(model_name)
     
-    # Load the sentiment analysis pipeline
-    nlp = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+    # Load the model to CUDA if available, otherwise fallback to CPU
+    device = "cuda" if torch.cuda.is_available() else "cpu"  # 0 is for CUDA device, -1 for CPU
+    model = BertForSequenceClassification.from_pretrained(model_name).to(device)
+    
+    # Load the sentiment analysis pipeline and specify the device
+    nlp = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer, device=device)
+    
     return nlp
 
 def analyze_sentiment(headlines_df, sentiment_pipeline):

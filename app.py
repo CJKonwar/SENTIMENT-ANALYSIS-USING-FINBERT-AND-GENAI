@@ -4,6 +4,7 @@ import sentiment_analysis
 import llama2_analysis  # Make sure this import is valid
 import os
 from dotenv import load_dotenv
+import torch
 
 # Load environment variables from .env file
 load_dotenv()
@@ -28,8 +29,9 @@ if company_name:
         # Display the fetched news headlines
         st.dataframe(headlines_df)
 
-        # Load FinBERT model
-        sentiment_pipeline = sentiment_analysis.load_finbert_model()
+        # Load FinBERT model with CUDA support
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        sentiment_pipeline = sentiment_analysis.load_finbert_model(device)
         
         # Analyze sentiment
         st.write("Analyzing sentiment...")
@@ -38,9 +40,9 @@ if company_name:
         # Display the sentiment data
         st.write(headlines_with_sentiment)
 
-        # Load Llama 2 model for summarization and insights
+        # Load Llama 2 model for summarization and insights with CUDA support
         st.write("Loading Llama 2 model for generating summary and insights...")
-        llama_model, llama_tokenizer = llama2_analysis.load_llama2_model()
+        llama_model, llama_tokenizer = llama2_analysis.load_llama2_model(device)
         
         # Generate summary and insights
         st.write("Generating summary and insights...")
