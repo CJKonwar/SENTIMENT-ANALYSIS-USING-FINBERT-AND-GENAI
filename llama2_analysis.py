@@ -26,20 +26,16 @@ def load_llama2_model(device):
 
     return model, tokenizer
 
-
 def generate_summary_and_insights(headlines_df, model, tokenizer):
     # Concatenate all the headlines into one input string
     headlines_text = ". ".join(headlines_df['Headline'].tolist())
-
-    # Determine the device: Use GPU if available, otherwise CPU
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Set up a pipeline for text generation using the LLaMA 2 model
     text_generation = pipeline(
         "text-generation", 
         model=model, 
-        tokenizer=tokenizer, 
-        device=device  # Specify the device (GPU/CPU)
+        tokenizer=tokenizer
+        # Removed the `device` argument, as it's automatically handled
     )
 
     # Create a prompt for summarizing and generating insights on investment
