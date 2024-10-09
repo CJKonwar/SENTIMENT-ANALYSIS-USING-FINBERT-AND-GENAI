@@ -1,10 +1,17 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 import torch
+from dotenv import load_dotenv
+import os
+
+
+
+load_dotenv()
 
 
 def load_llama2_model():
+   
     model_name = "meta-llama/Llama-2-7b-chat-hf"
-    hf_token = "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"  # Replace with your actual token
+    hf_token = os.getenv("hf_token") # Replace with your actual token
 
     # Load tokenizer and model with the token
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_auth_token=hf_token)
