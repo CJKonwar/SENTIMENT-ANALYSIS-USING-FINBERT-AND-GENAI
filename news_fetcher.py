@@ -21,4 +21,4 @@ def get_news(company_name, api_key):
         return pd.DataFrame(headlines)
     else:
         print(f"Error fetching news: {response.status_code}")
-        return Non
+        return None
