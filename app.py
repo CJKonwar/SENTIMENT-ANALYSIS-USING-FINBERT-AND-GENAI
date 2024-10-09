@@ -9,6 +9,10 @@ import torch
 # Load environment variables from .env file
 load_dotenv()
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+st.write(f"using {device}")
+
 # Fetch API key from .env file
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
@@ -30,7 +34,7 @@ if company_name:
         st.dataframe(headlines_df)
 
         # Load FinBERT model with CUDA support
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+       
         sentiment_pipeline = sentiment_analysis.load_finbert_model(device)
         
         # Analyze sentiment
