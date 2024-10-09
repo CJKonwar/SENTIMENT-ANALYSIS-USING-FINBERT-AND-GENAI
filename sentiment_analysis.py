@@ -2,7 +2,9 @@ from transformers import BertTokenizer, BertForSequenceClassification, pipeline
 import pandas as pd
 import torch
 
-def load_finbert_model():
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+def load_finbert_model(device):
     """
     Load the FinBERT model and tokenizer for sentiment analysis.
     If a GPU is available, it will load the model on the GPU.

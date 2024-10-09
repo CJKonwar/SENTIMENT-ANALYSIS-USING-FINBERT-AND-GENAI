@@ -2,10 +2,14 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 import torch
 from dotenv import load_dotenv
 import os
+import torch
+
 
 load_dotenv()
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
-def load_llama2_model():
+
+def load_llama2_model(device):
     model_name = "meta-llama/Llama-2-7b-chat-hf"
     hf_token = os.getenv("hf_token")  # Replace with your actual token
 
