@@ -31,7 +31,7 @@ def main(company_name):
     
     # Step 4: Load Llama 2 model for summarization and insights (with CUDA support)
     print("Loading Llama 2 model for summarization and insights...")
-    llama_model, llama_tokenizer = llama2_analysis.load_llama2_model()
+    llama_model, llama_tokenizer = llama2_analysis.load_llama2_model(device)
 
     # Check for CUDA availability and set the appropriate device
     if torch.cuda.is_available():
