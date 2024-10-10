@@ -69,4 +69,4 @@ if __name__ == "__main__":
     company_name = input("Enter the company name: ")
     symbol = input("Enter the stock symbol: ")
     main(company_name, symbol)
-    y
+    

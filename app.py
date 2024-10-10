@@ -77,4 +77,4 @@ if company_name and symbol:
         st.error("No news found or an error occurred while fetching the news.")
 else:
     st.warning("Please enter both the company name and stock symbol.")
-    y
+    
