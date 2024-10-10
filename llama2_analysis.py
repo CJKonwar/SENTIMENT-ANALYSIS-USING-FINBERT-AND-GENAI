@@ -10,7 +10,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def load_llama2_model(device):
-    model_name = "meta-llama/Llama-2-7b-chat-hf"
+    model_name = "meta-llama/Llama-3.2-3B-Instruct"
     hf_token = os.getenv("hf_token")  # Replace with your actual token
 
     # Load tokenizer and model with the token, using CUDA if available
@@ -39,9 +39,10 @@ def generate_summary_and_insights(headlines_df, model, tokenizer):
     )
 
     # Create a prompt for summarizing and generating insights on investment
-    prompt = (f"Summarize the following headlines and provide investment insights, along with sentiment analysis: {headlines_text}. "
-              "Also provide suggestions on whether it's a good time to invest in this company.")
-
+    prompt = (f"Please summarize the following headlines: {headlines_text}. "
+              "Provide detailed investment insights, including both short-term and long-term perspectives, "
+              "along with sentiment analysis for each headline. "
+              "Also, suggest whether it's a good time to invest in the company based on the insights provided.")
     # Generate the summary and insights using the model
     summary_and_insights = text_generation(
         prompt,
