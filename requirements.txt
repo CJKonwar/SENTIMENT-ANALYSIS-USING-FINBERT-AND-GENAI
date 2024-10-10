@@ -1,8 +1,8 @@
 accelerate==0.34.2
 altair==5.4.1
-attrs==24.2.0
 beautifulsoup4==4.12.3
 blinker==1.8.2
+attrs==24.2.0
 cachetools==5.5.0
 certifi==2024.8.30
 charset-normalizer==3.3.2
