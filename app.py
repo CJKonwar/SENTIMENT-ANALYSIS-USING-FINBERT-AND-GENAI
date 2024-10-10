@@ -1,60 +1,79 @@
 import streamlit as st
 import news_fetcher
 import sentiment_analysis
-import llama2_analysis  # Make sure this import is valid
+import llama2_analysis
 import os
 from dotenv import load_dotenv
 import torch
+from fundamental_basic import get_all_stock_info as get_basic_info
+from fundamental_adv import get_all_stock_info as get_advanced_info
 
 # Load environment variables from .env file
 load_dotenv()
 
+# Set up the device for CUDA if available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-st.write(f"using {device}")
-
-# Fetch API key from .env file
-NEWS_API_KEY = os.getenv("NEWS_API_KEY")
-
 # Streamlit interface
-st.title("Company News Sentiment Analyzer")
+st.title("Company News and Stock Sentiment Analyzer")
 
+# User inputs
 company_name = st.text_input("Enter the company name:", "")
+symbol = st.text_input("Enter the stock symbol:", "")
 
-if company_name:
+if company_name and symbol:
     st.write(f"Fetching top news for **{company_name}**...")
+
+    # Fetch API key from .env file
+    NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
     # Fetch the news
     headlines_df = news_fetcher.get_news(company_name, NEWS_API_KEY)
     
     if headlines_df is not None and not headlines_df.empty:
-        st.write("News Headlines fetched successfully!")
+        st.success("News Headlines fetched successfully!")
         
         # Display the fetched news headlines
+        st.subheader(f"Top News Headlines for {company_name}:")
         st.dataframe(headlines_df)
 
-        # Load FinBERT model with CUDA support
-       
-        sentiment_pipeline = sentiment_analysis.load_finbert_model(device)
-        
-        # Analyze sentiment
-        st.write("Analyzing sentiment...")
-        headlines_with_sentiment = sentiment_analysis.analyze_sentiment(headlines_df, sentiment_pipeline)
+        # Fetch basic stock info
+        st.write(f"Fetching basic stock info for **{symbol}**...")
+        basic_info_df = get_basic_info(symbol)
+        st.subheader("Basic Stock Information:")
+        st.dataframe(basic_info_df)
 
-        # Display the sentiment data
-        st.write(headlines_with_sentiment)
+        # Fetch advanced stock info
+        st.write(f"Fetching advanced stock info for **{symbol}**...")
+        advanced_info = get_advanced_info(symbol)
+        st.subheader("Advanced Stock Information:")
+        st.json(advanced_info)
 
-        # Load Llama 2 model for summarization and insights with CUDA support
-        st.write("Loading Llama 2 model for generating summary and insights...")
+        # Load Llama 2 model for summarization and insights
+        st.write("Loading Llama 2 model for summarization and insights...")
         llama_model, llama_tokenizer = llama2_analysis.load_llama2_model(device)
-        
-        # Generate summary and insights
-        st.write("Generating summary and insights...")
+
+        # Generate summary and insights using Llama 2
+        st.write("Generating summary and investment insights using Llama 2...")
         summary_and_insights = llama2_analysis.generate_summary_and_insights(headlines_df, llama_model, llama_tokenizer)
 
-        # Display the summary and insights
+        # Display summary and insights
         st.subheader("Summary and Investment Insights:")
         st.write(summary_and_insights)
 
+        # Load FinBERT model for sentiment analysis at the end
+        st.write("Loading FinBERT model for sentiment analysis...")
+        sentiment_pipeline = sentiment_analysis.load_finbert_model(device)
+
+        # Analyze sentiment of the headlines
+        st.write("Analyzing sentiment of news headlines...")
+        headlines_with_sentiment = sentiment_analysis.analyze_sentiment(headlines_df, sentiment_pipeline)
+
+        # Display the sentiment data
+        st.subheader("News Headlines with Sentiment Analysis:")
+        st.dataframe(headlines_with_sentiment)
+
     else:
         st.error("No news found or an error occurred while fetching the news.")
+else:
+    st.warning("Please enter both the company name and stock symbol.")

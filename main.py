@@ -4,6 +4,8 @@ import news_fetcher
 import sentiment_analysis
 import llama2_analysis
 import torch
+from fundamental_basic import get_all_stock_info as get_basic_info
+from fundamental_adv import get_all_stock_info as get_advanced_info
 
 # Load environment variables from .env file
 load_dotenv()
@@ -11,8 +13,8 @@ load_dotenv()
 # Fetch API key from .env file
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
-def main(company_name):
-    # Step 1: Fetch the top headlines for the company
+def main(company_name, symbol):
+    # Fetch the top headlines for the company
     print(f"Fetching top news headlines for {company_name}...")
     headlines_df = news_fetcher.get_news(company_name, NEWS_API_KEY)
     
@@ -20,36 +22,50 @@ def main(company_name):
         print("No news found.")
         return
 
-    # Step 2: Load FinBERT model for sentiment analysis (with CUDA if available)
+    # Fetch basic stock info
+    print(f"\nFetching basic stock info for {symbol}...")
+    basic_info_df = get_basic_info(symbol)
+    print(basic_info_df)
+
+    # Fetch advanced stock info
+    print(f"\nFetching advanced stock info for {symbol}...")
+    advanced_info = get_advanced_info(symbol)
+    for key, value in advanced_info.items():
+        print(f"{key}: {value}")
+
+    # Load FinBERT model for sentiment analysis (with CUDA if available)
     print("Loading FinBERT model...")
     device = "cuda" if torch.cuda.is_available() else "cpu"
     sentiment_pipeline = sentiment_analysis.load_finbert_model(device=device)
 
-    # Step 3: Analyze sentiment of the headlines
+    # Analyze sentiment of the headlines
     print("Analyzing sentiment of news headlines...")
     headlines_with_sentiment = sentiment_analysis.analyze_sentiment(headlines_df, sentiment_pipeline)
-    
-    # Step 4: Load Llama 2 model for summarization and insights (with CUDA support)
+
+    # Display top headlines with sentiment
+    print("\nTop 10 News Headlines with Sentiment:")
+    print(headlines_with_sentiment)
+
+    # Load Llama 2 model for summarization and insights
     print("Loading Llama 2 model for summarization and insights...")
     llama_model, llama_tokenizer = llama2_analysis.load_llama2_model(device)
 
-    # Check for CUDA availability and set the appropriate device
+    # Use CUDA if available for the Llama model
     if torch.cuda.is_available():
         llama_model = llama_model.to("cuda")
         print("Llama 2 model is using CUDA.")
     else:
         print("CUDA not available. Llama 2 model is using CPU.")
-    
+
+    # Generate summary and insights using Llama 2
     print("Generating summary and insights using Llama 2...")
     llama_summary_and_insights = llama2_analysis.generate_summary_and_insights(headlines_df, llama_model, llama_tokenizer)
-    
-    # Step 5: Display results
-    print("\nTop 10 News Headlines with Sentiment:")
-    print(headlines_with_sentiment)
-    
+
+    # Display summary and insights
     print("\nSummary and Insights:")
     print(llama_summary_and_insights)
 
 if __name__ == "__main__":
     company_name = input("Enter the company name: ")
-    main(company_name)
+    symbol = input("Enter the stock symbol: ")
+    main(company_name, symbol)
