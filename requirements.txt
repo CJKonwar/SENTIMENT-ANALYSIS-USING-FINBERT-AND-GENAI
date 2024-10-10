@@ -105,3 +105,4 @@ websockets==12.0
 Werkzeug==3.0.3
 yarl==1.9.4
 yfinance==0.2.44
+i
