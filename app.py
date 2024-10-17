@@ -3,14 +3,12 @@ from src import sentiment_analysis, news_fetcher
 from src.llama_analysis import fundamental_llama, llama2_analysis
 import os
 from dotenv import load_dotenv
-
-load_dotenv(dotenv_path='.env')
-
 import torch
 from src.fundamental.fundamental_basic import get_all_stock_info as get_basic_info
 from src.fundamental.fundamental_adv import get_all_stock_info as get_advanced_info
 
-
+#Loader for the .env file
+load_dotenv(dotenv_path='.env')
 
 # Set up the device for CUDA if available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -48,8 +46,6 @@ if company_name and symbol:
 
         advanced_info = get_advanced_info(symbol)
 
-
-
         # Load Llama 2 model for summarization and insights
         st.write("Loading Llama 2 model for summarization and insights...")
         llama_model, llama_tokenizer = llama2_analysis.load_llama2_model(device)
@@ -58,7 +54,6 @@ if company_name and symbol:
         fundamental_summary = fundamental_llama.generate_summary_and_insights_from_fundamentals(advanced_info,
                                                                                                 llama_model,
                                                                                                 llama_tokenizer)
-
         # Display summary and insights from fundamental data
         st.subheader("Summary and Investment Insights from Fundamentals:")
         st.write(fundamental_summary)
