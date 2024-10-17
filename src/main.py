@@ -12,6 +12,9 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
+# Set up the device for CUDA if available
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 def main(company_name, symbol):
     # Fetch the top headlines for the company
@@ -36,7 +39,7 @@ def main(company_name, symbol):
     # Generate summary and insights from fundamental data using Llama 2 model
     print("Generating fundamental summary and insights using Llama 2...")
 
-    llama_model, llama_tokenizer = fundamental_llama.load_llama2_model(device)
+    llama_model, llama_tokenizer = fundamental_llama.load_llama2_model()
     fundamental_summary_and_insights = fundamental_llama.generate_summary_and_insights_from_fundamentals(advanced_info,
                                                                                                          llama_model,
                                                                                                          llama_tokenizer)
@@ -78,7 +81,7 @@ def main(company_name, symbol):
     print(llama_summary_and_insights)
 
 
-if _name_ == "_main_":
+if __name__ == "_main_":
     company_name = input("Enter the company name: ")
     symbol = input("Enter the stock symbol: ")
     main(company_name, symbol)

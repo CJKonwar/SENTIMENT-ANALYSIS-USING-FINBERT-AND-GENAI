@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Results for {{ company_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+    <link rel="stylesheet" href="/static/css/style1.css">
+
+
+</head>
+
+
+
+<body>
+    <div class="header-container">
+        <h1>Analysis Results for {{ company_name }}</h1>
+    </div>
+
+    <div class="container">
+
+        <!-- Left Section -->
+        <div class="section-left">
+
+            <div class="chart-container">
+                <h2>Stock Chart</h2>
+                <div class="tradingview-widget-container">
+                    <div id="tradingview_{{ symbol }} style=" height: 400px; width: 100%;"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                        new TradingView.widget({
+                            "container_id": "tradingview_{{ symbol }}",
+                            "autosize": true,
+                            "symbol": "{{ symbol }}",
+                            "interval": "D",
+                            "timezone": "Etc/UTC",
+                            "theme": "light",
+                            "style": "1",
+                            "locale": "en",
+                            "toolbar_bg": "#f1f3f6",
+                            "enable_publishing": false,
+                            "allow_symbol_change": true,
+                            "studies": ["MACD@tv-basicstudies"],
+                            "show_popup_button": true,
+                            "popup_width": "1000",
+                            "popup_height": "650"
+                        });
+                    </script>
+                </div>
+
+            </div>
+            <h2>News Headlines with Sentiment Analysis</h2>
+            <ul>
+                {% for index, row in headlines_with_sentiment.iterrows() %}
+                <li>
+                    <a href="{{ row['URL'] }}" target="_blank">{{ row['Headline'] }}</a>
+                    - Sentiment: {{ row['Sentiment'] }}
+                </li>
+                {% endfor %}
+            </ul>
+            <h2>Basic Stock Information</h2>
+        <div class="info-container">
+            <ul class="info-list">
+                {% for index, row in basic_info.iterrows() %}
+                <li class="info-item">
+                    <strong>{{ row['Metric'] }}:</strong> {{ row['Value'] }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        </div>
+
+        <!-- Right Section -->
+
+
+
+        
+
+
+        <div class="section-right">
+            <h2>Summary and Investment Insights from News</h2>
+
+            <p>{{summary_and_insights}}</p>
+      
+
+
+            
+
+        
+
+
+        <h2>Major Holders</h2>
+        <p>{{ advanced_info['Major Holders'] }}</p>
+
+        <h2>Institutional Holders</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date Reported</th>
+                    <th>Holder</th>
+                    <th>Percentage Held</th>
+                    <th>Shares</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in advanced_info['Institutional Holders'].iterrows() %}
+                <tr>
+                    <td>{{ row['Date Reported'] }}</td>
+                    <td>{{ row['Holder'] }}</td>
+                    <td>{{ row['pctHeld'] }}</td>
+                    <td>{{ row['Shares'] }}</td>
+                    <td>{{ row['Value'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Mutual Fund Holders</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date Reported</th>
+                    <th>Holder</th>
+                    <th>Percentage Held</th>
+                    <th>Shares</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in advanced_info['Mutual Fund Holders'].iterrows() %}
+                <tr>
+                    <td>{{ row['Date Reported'] }}</td>
+                    <td>{{ row['Holder'] }}</td>
+                    <td>{{ row['pctHeld'] }}</td>
+                    <td>{{ row['Shares'] }}</td>
+                    <td>{{ row['Value'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Insider Transactions</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Shares</th>
+                    <th>Value</th>
+                    <th>URL</th>
+                    <th>Text</th>
+                    <th>Insider</th>
+                    <th>Position</th>
+                    <th>Transaction Start Date</th>
+                    <th>Ownership</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in advanced_info['Insider Transactions'].iterrows() %}
+                <tr>
+                    <td>{{ row['Shares'] }}</td>
+                    <td>{{ row['Value'] }}</td>
+                    <td><a href="{{ row['URL'] }}" target="_blank">Link</a></td>
+                    <td>{{ row['Text'] }}</td>
+                    <td>{{ row['Insider'] }}</td>
+                    <td>{{ row['Position'] }}</td>
+                    <td>{{ row['Transaction Start Date'] }}</td>
+                    <td>{{ row['Ownership'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Insider Purchases</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Purchases:</td>
+                    <td>{{ advanced_info['Insider Purchases']['Purchases'] }}</td>
+                </tr>
+                <tr>
+                    <td>Sales:</td>
+                    <td>{{ advanced_info['Insider Purchases']['Sales'] }}</td>
+                </tr>
+                <tr>
+                    <td>Net Shares Purchased (Sold):</td>
+                    <td>{{ advanced_info['Insider Purchases']['Net Shares Purchased (Sold)'] }}</td>
+                </tr>
+                <tr>
+                    <td>Total Insider Shares Held:</td>
+                    <td>{{ advanced_info['Insider Purchases']['Total Insider Shares Held'] }}</td>
+                </tr>
+                <tr>
+                    <td>% Net Shares Purchased (Sold):</td>
+                    <td>{{ advanced_info['Insider Purchases']['% Net Shares Purchased (Sold)'] }}</td>
+                </tr>
+                <tr>
+                    <td>% Buy Shares:</td>
+                    <td>{{ advanced_info['Insider Purchases']['% Buy Shares'] }}</td>
+                </tr>
+                <tr>
+                    <td>% Sell Shares:</td>
+                    <td>{{ advanced_info['Insider Purchases']['% Sell Shares'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Analyst Price Targets</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Current Price Target:</td>
+                    <td>${{ advanced_info['Analyst Price Targets']['current'] }}</td>
+                </tr>
+                <tr>
+                    <td>Low Price Target:</td>
+                    <td>${{ advanced_info['Analyst Price Targets']['low'] }}</td>
+                </tr>
+                <tr>
+                    <td>High Price Target:</td>
+                    <td>${{ advanced_info['Analyst Price Targets']['high'] }}</td>
+                </tr>
+                <tr>
+                    <td>Mean Price Target:</td>
+                    <td>${{ advanced_info['Analyst Price Targets']['mean'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Earnings Estimate</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Number of Analysts</th>
+                    <th>Avg EPS</th>
+                    <th>Low EPS</th>
+                    <th>High EPS</th>
+                    <th>Year Ago EPS</th>
+                    <th>Growth</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for period, row in advanced_info['Earnings Estimate'].iterrows() %}
+                <tr>
+                    <td>{{ period }}</td>
+                    <td>{{ row['numberOfAnalysts'] }}</td>
+                    <td>{{ row['avg'] }}</td>
+                    <td>{{ row['low'] }}</td>
+                    <td>{{ row['high'] }}</td>
+                    <td>{{ row['yearAgoEps'] }}</td>
+                    <td>{{ row['growth'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Revenue Estimate</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Number of Analysts</th>
+                    <th>Avg Revenue</th>
+                    <th>Low Revenue</th>
+                    <th>High Revenue</th>
+                    <th>Year Ago Revenue</th>
+                    <th>Growth</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for period, row in advanced_info['Revenue Estimate'].iterrows() %}
+                <tr>
+                    <td>{{ period }}</td>
+                    <td>{{ row['numberOfAnalysts'] }}</td>
+                    <td>{{ row['avg'] }}</td>
+                    <td>{{ row['low'] }}</td>
+                    <td>{{ row['high'] }}</td>
+                    <td>{{ row['yearAgoRevenue'] }}</td>
+                    <td>{{ row['growth'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Earnings History</h2>
+        <p>{{ advanced_info['Earnings History'] }}</p>
+       
+    </div>
+</div>
+</body>
+
+</html>

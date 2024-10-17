@@ -8,7 +8,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 load_dotenv(dotenv_path="../../.env")
 def load_llama2_model():
     model_name = "meta-llama/Llama-3.2-3B-Instruct"  # Replace with your specific Llama-2 model
-    hf_token = os.getenv("hf_token")  # Replace with your actual Hugging Face token
+    hf_token = os.getenv("HF_TOKEN")  # Replace with your actual Hugging Face token
 
     # Load tokenizer and model with the token
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_auth_token=hf_token)

@@ -1,5 +1,5 @@
 import yfinance as yf
-import pandas as pd
+
 
 
 def get_all_stock_info(symbol):

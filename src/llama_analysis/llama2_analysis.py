@@ -10,7 +10,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def load_llama2_model(device):
     model_name = "meta-llama/Llama-3.2-3B-Instruct"
-    hf_token = os.getenv("hf_token")  # Replace with your actual token
+    hf_token = os.getenv("HF_TOKEN")  # Replace with your actual token
 
     # Load tokenizer and model with the token, using CUDA if available
     tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
