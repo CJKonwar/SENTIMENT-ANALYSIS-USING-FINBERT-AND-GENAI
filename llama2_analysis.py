@@ -1,4 +1,4 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, pipeline
 import torch
 from dotenv import load_dotenv
 import os
@@ -6,13 +6,13 @@ import os
 load_dotenv()
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-def load_llama2_model(device):
-    model_name = "meta-llama/Llama-3.2-3B-Instruct"
+def load_flan_t5_model(device):
+    model_name = "google/flan-t5-large"
     hf_token = os.getenv("hf_token")  # Replace with your actual token
 
     # Load tokenizer and model with the token, using CUDA if available
     tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
-    model = AutoModelForCausalLM.from_pretrained(
+    model = AutoModelForSeq2SeqLM.from_pretrained(
         model_name,
         token=hf_token,
         device_map="auto",  # Automatically map to GPU if available
@@ -24,9 +24,9 @@ def generate_summary_and_insights(headlines_df, model, tokenizer):
     # Concatenate headlines into a single string
     headlines_text = ". ".join(headlines_df['Headline'].tolist())
 
-    # Set up a text-generation pipeline
+    # Set up a text-generation pipeline for text2text generation
     text_generation = pipeline(
-        "text-generation",
+        "text2text-generation",
         model=model,
         tokenizer=tokenizer
     )

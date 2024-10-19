@@ -52,7 +52,7 @@ if company_name and symbol:
 
         # Load Llama 2 model for summarization and insights
         st.write("Loading Llama 2 model for summarization and insights...")
-        llama_model, llama_tokenizer = llama2_analysis.load_llama2_model(device)
+        llama_model, llama_tokenizer = llama2_analysis.load_flan_t5_model(device)
         # Load Llama 2 model for summarization and insights based on stock fundamentals
         st.write("Generating summary and investment insights using Llama 2 (from fundamental stock data)...")
         fundamental_summary = fundamental_llama.generate_summary_and_insights_from_fundamentals(advanced_info,
