@@ -62,16 +62,16 @@ def generate_summary_and_insights(headlines_df):
     if response.status_code == 200:
         # Parse and print the generated response
         response_data = response.json()
-        # summary = response_data['choices'][0]['message']['content']
-        #
-        # # Clean up the summary if needed (optional)
-        # # For instance, you can split it at the first line break if you only want the summary part
+        summary = response_data['choices'][0]['message']['content']
+
+        # Clean up the summary if needed (optional)
+        # For instance, you can split it at the first line break if you only want the summary part
         # cleaned_summary = summary.split("\n\n", 1)[0]  # Keep only the first paragraph
-        #
-        # # Print the extracted summary
-        # print("Extracted Summary:")
+
+        # Print the extracted summary
+
         # print(summary)
-        return response_data
+        return summary
     else:
         return f"Error {response.status_code}: {response.text}"
 
