@@ -1,6 +1,7 @@
 import os
 
-from src import sentiment_analysis, news_fetcher
+from src import sentiment_analysis
+from src.vultr_llama import news_fetcher
 from src.llama_analysis import fundamental_llama, llama2_analysis
 import torch
 from src.fundamental.fundamental_basic import get_all_stock_info as get_basic_info

@@ -1,5 +1,6 @@
 import streamlit as st
-from src import sentiment_analysis, news_fetcher
+from src import sentiment_analysis
+from src.vultr_llama import news_fetcher
 from src.llama_analysis import fundamental_llama, llama2_analysis
 import os
 from dotenv import load_dotenv
@@ -41,6 +42,16 @@ if company_name and symbol:
         basic_info_df = get_basic_info(symbol)
         st.subheader("Basic Stock Information:")
         st.dataframe(basic_info_df)
+        st.write("Loading FinBERT model for sentiment analysis...")
+        sentiment_pipeline = sentiment_analysis.load_finbert_model(device)
+
+        # Analyze sentiment of the headlines
+        st.write("Analyzing sentiment of news headlines...")
+        headlines_with_sentiment = sentiment_analysis.analyze_sentiment(headlines_df, sentiment_pipeline)
+
+        # Display the sentiment data
+        st.subheader("News Headlines with Sentiment Analysis:")
+        st.dataframe(headlines_with_sentiment)
 
         # Fetch advanced stock info
 
@@ -68,16 +79,7 @@ if company_name and symbol:
 
 
         # Load FinBERT model for sentiment analysis at the end
-        st.write("Loading FinBERT model for sentiment analysis...")
-        sentiment_pipeline = sentiment_analysis.load_finbert_model(device)
 
-        # Analyze sentiment of the headlines
-        st.write("Analyzing sentiment of news headlines...")
-        headlines_with_sentiment = sentiment_analysis.analyze_sentiment(headlines_df, sentiment_pipeline)
-
-        # Display the sentiment data
-        st.subheader("News Headlines with Sentiment Analysis:")
-        st.dataframe(headlines_with_sentiment)
 
     else:
         st.error("No news found or an error occurred while fetching the news.")
