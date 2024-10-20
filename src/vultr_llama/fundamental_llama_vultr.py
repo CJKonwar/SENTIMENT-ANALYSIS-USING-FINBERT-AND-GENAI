@@ -16,77 +16,54 @@ def generate_summary_and_insights_from_fundamentals(stock_info):
         print("Error: API keys are not loaded properly.")
         return
 
+    # Extracting major holders, institutional, mutual fund, insider transactions, and earnings/revenue estimates
     major_holders = stock_info.get('Major Holders', 'No data available')
     institutional_holders = stock_info.get('Institutional Holders', 'No data available')
     mutual_fund_holders = stock_info.get('Mutual Fund Holders', 'No data available')
     insider_transactions = stock_info.get('Insider Transactions', 'No data available')
     insider_purchases = stock_info.get('Insider Purchases', 'No data available')
-    upgrades_downgrades = stock_info.get('Upgrades/Downgrades', 'No data available')
     analyst_price_targets = stock_info.get('Analyst Price Targets', 'No data available')
     earnings_estimate = stock_info.get('Earnings Estimate', 'No data available')
     revenue_estimate = stock_info.get('Revenue Estimate', 'No data available')
-    earnings_history = stock_info.get('Earnings History', 'No data available')
 
-    # Formulate a prompt based on fundamental data
+    # Formulating a concise prompt
     prompt = (
-            "Analyze the following stock's fundamental data and provide a structured summary along with investment insights:\n\n"
+            "Analyze the following stock's fundamental data and provide a summary:\n\n"
 
-            "### Major Holders\n"
-            f"{major_holders}\n\n"
+            f"### Major Holders\n{major_holders}\n\n"
 
-            "### Institutional Holders\n"
-            "| Date Reported | Holder                     | pctHeld | Shares     | Value         |\n"
-            "|---------------|----------------------------|---------|------------|---------------|\n"
+            f"### Institutional Holders (Top 10)\n"
             + "\n".join([
-        f"| {row['Date Reported']} | {row['Holder']} | {row['pctHeld']} | {row['Shares']} | {row['Value']} |"
-        for index, row in institutional_holders.iterrows()
+        f"- {row['Holder']}: {row['pctHeld']} of shares held."
+        for index, row in institutional_holders.head(10).iterrows()
     ]) + "\n\n"
 
-         "### Mutual Fund Holders\n"
-         "| Date Reported | Holder                     | pctHeld | Shares     | Value         |\n"
-         "|---------------|----------------------------|---------|------------|---------------|\n"
+         f"### Mutual Fund Holders (Top 10)\n"
             + "\n".join([
-        f"| {row['Date Reported']} | {row['Holder']} | {row['pctHeld']} | {row['Shares']} | {row['Value']} |"
-        for index, row in mutual_fund_holders.iterrows()
+        f"- {row['Holder']}: {row['pctHeld']} of shares held."
+        for index, row in mutual_fund_holders.head(10).iterrows()
     ]) + "\n\n"
 
-         "### Insider Transactions\n"
-         "| Shares   | Value           | URL | Text      | Insider | Position            | Transaction Start Date | Ownership |\n"
-         "|----------|------------------|-----|-----------|---------|---------------------|------------------------|-----------|\n"
-            + "\n".join([
-        f"| {row['Shares']} | {row['Value']} | {row['URL']} | {row['Text']} | {row['Insider']} | {row['Position']} | {row.get('Transaction Start Date', 'N/A')} | {row['Ownership']} |"
-        for index, row in insider_transactions.iterrows()
-    ]) + "\n\n"
+         f"### Insider Transactions\n{insider_transactions.head(3).to_string(index=False)}\n\n"
 
-         "### Insider Purchases\n"
-         "| Purchases | Sales | Net Shares Purchased (Sold) | Total Insider Shares Held | % Net Shares Purchased (Sold) | % Buy Shares | % Sell Shares |\n"
-         "|-----------|-------|----------------------------|---------------------------|------------------------------|--------------|---------------|\n"
-            + f"| {insider_purchases.get('Purchases', 'N/A')} | {insider_purchases.get('Sales', 'N/A')} | {insider_purchases.get('Net Shares Purchased (Sold)', 'N/A')} | {insider_purchases.get('Total Insider Shares Held', 'N/A')} | {insider_purchases.get('% Net Shares Purchased (Sold)', 'N/A')} | {insider_purchases.get('% Buy Shares', 'N/A')} | {insider_purchases.get('% Sell Shares', 'N/A')} |\n\n"
+         f"### Insider Purchases\n"
+         f"- Purchases: {insider_purchases.get('Purchases', 'N/A')}\n"
+         f"- Sales: {insider_purchases.get('Sales', 'N/A')}\n\n"
 
-              "### Analyst Price Targets\n"
-              f"**Current Price Target:** ${analyst_price_targets['current']}\n"
-              f"**Low Price Target:** ${analyst_price_targets['low']}\n"
-              f"**High Price Target:** ${analyst_price_targets['high']}\n"
-              f"**Mean Price Target:** ${analyst_price_targets['mean']}\n"
-              f"**Median Price Target:** ${analyst_price_targets['median']}\n\n"
+         f"### Analyst Price Targets\n"
+         f"Current Price Target: ${analyst_price_targets['current']}\n"
+         f"Mean Price Target: ${analyst_price_targets['mean']}\n\n"
 
-              "### Earnings Estimate\n"
-              "| Period | Number of Analysts | Avg EPS | Low EPS | High EPS | Year Ago EPS | Growth  |\n"
-              "|--------|-------------------|---------|---------|----------|---------------|---------|\n"
-            + "\n".join([
-        f"| {period} | {row['numberOfAnalysts']} | {row['avg']} | {row['low']} | {row['high']} | {row['yearAgoEps']} | {row['growth']} |"
-        for period, row in earnings_estimate.iterrows()
-    ]) + "\n\n"
+         f"### Earnings Estimate (Next Quarter)\n"
+            + f"- Average EPS: {earnings_estimate['avg'].iloc[0]}\n"
+            + f"- Growth: {earnings_estimate['growth'].iloc[0]}\n\n"
 
-         "### Revenue Estimate\n"
-         "| Period | Number of Analysts | Avg Revenue | Low Revenue | High Revenue | Year Ago Revenue | Growth  |\n"
-         "|--------|-------------------|-------------|-------------|--------------|-------------------|---------|\n"
-            + "\n".join([
-        f"| {period} | {row['numberOfAnalysts']} | {row['avg']} | {row['low']} | {row['high']} | {row['yearAgoRevenue']} | {row['growth']} |"
-        for period, row in revenue_estimate.iterrows()
-    ]) + "\n\n"
-
+              f"### Revenue Estimate (Next Quarter)\n"
+            + f"- Average Revenue: {revenue_estimate['avg'].iloc[0]}\n"
+            + f"- Growth: {revenue_estimate['growth'].iloc[0]}\n"
     )
+
+    # Now, prompt can be used for further analysis or processing
 
     payload = {
         "model": "llama2-13b-chat-Q5_K_M",  # Replace with the model name you want to use
@@ -96,7 +73,7 @@ def generate_summary_and_insights_from_fundamentals(stock_info):
                 "content": prompt
             }
         ],
-        "max_tokens": 512,
+        "max_tokens": 2000,
         "seed": -1,
         "temperature": 0.8,
         "top_k": 40,
@@ -116,8 +93,16 @@ def generate_summary_and_insights_from_fundamentals(stock_info):
     if response.status_code == 200:
         # Parse and print the generated response
         response_data = response.json()
+        summary = response_data['choices'][0]['message']['content']
 
-        return response_data
+        # Clean up the summary if needed (optional)
+        # For instance, you can split it at the first line break if you only want the summary part
+        # cleaned_summary = summary.split("\n\n", 1)[0]  # Keep only the first paragraph
+
+        # Print the extracted summary
+
+        # print(summary)
+        return summary
     else:
         return f"Error {response.status_code}: {response.text}"
 
