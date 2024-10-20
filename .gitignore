@@ -1,2 +1,7 @@
-.env
+
 __pycache__
+st.secrets
+.env
+.venv
+setup.sh
+st.secrets

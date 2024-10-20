@@ -1,16 +1,15 @@
 import streamlit as st
-import news_fetcher
-import sentiment_analysis
-import llama2_analysis
-import fundamental_llama  # Import the llamafundamental module
+from src import sentiment_analysis
+from src.vultr_llama import fundamental_llama_vultr
+from src.vultr_llama import llama_analysis_vultr
 import os
 from dotenv import load_dotenv
 import torch
-from fundamental_basic import get_all_stock_info as get_basic_info
-from fundamental_adv import get_all_stock_info as get_advanced_info
-
-# Load environment variables from .env file
-load_dotenv()
+from src.fundamental.fundamental_basic import get_all_stock_info as get_basic_info
+from src.fundamental.fundamental_adv import get_all_stock_info as get_advanced_info
+from src.vultr_llama import news_fetcher
+#Loader for the .env file
+load_dotenv(dotenv_path='.env')
 
 # Set up the device for CUDA if available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -25,7 +24,7 @@ symbol = st.text_input("Enter the stock symbol:", "")
 if company_name and symbol:
     st.write(f"Fetching top news for *{company_name}*...")
 
-    # Fetch API key from .env file
+
     NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
     # Fetch the news
@@ -43,36 +42,6 @@ if company_name and symbol:
         basic_info_df = get_basic_info(symbol)
         st.subheader("Basic Stock Information:")
         st.dataframe(basic_info_df)
-
-        # Fetch advanced stock info
-
-        advanced_info = get_advanced_info(symbol)
-
-
-
-        # Load Llama 2 model for summarization and insights
-        st.write("Loading Llama 2 model for summarization and insights...")
-        llama_model, llama_tokenizer = llama2_analysis.load_flan_t5_model(device)
-        # Load Llama 2 model for summarization and insights based on stock fundamentals
-        st.write("Generating summary and investment insights using Llama 2 (from fundamental stock data)...")
-        fundamental_summary = fundamental_llama.generate_summary_and_insights_from_fundamentals(advanced_info,
-                                                                                                llama_model,
-                                                                                                llama_tokenizer)
-
-        # Display summary and insights from fundamental data
-        st.subheader("Summary and Investment Insights from Fundamentals:")
-        st.write(fundamental_summary)
-        # Generate summary and insights using Llama 2 based on news headlines
-        st.write("Generating summary and investment insights using Llama 2 (from news headlines)...")
-        summary_and_insights = llama2_analysis.generate_summary_and_insights(headlines_df, llama_model, llama_tokenizer)
-
-        # Display summary and insights
-        st.subheader("Summary and Investment Insights from News:")
-        st.write(summary_and_insights)
-
-
-
-        # Load FinBERT model for sentiment analysis at the end
         st.write("Loading FinBERT model for sentiment analysis...")
         sentiment_pipeline = sentiment_analysis.load_finbert_model(device)
 
@@ -83,6 +52,28 @@ if company_name and symbol:
         # Display the sentiment data
         st.subheader("News Headlines with Sentiment Analysis:")
         st.dataframe(headlines_with_sentiment)
+
+        # Fetch advanced stock info
+
+        advanced_info = get_advanced_info(symbol)
+
+        st.write("Generating summary and investment insights using Llama  (from news headlines)...")
+        summary_and_insights = llama_analysis_vultr.generate_summary_and_insights(headlines_df)
+
+        # Display summary and insights
+        st.subheader("Summary and Investment Insights from News:")
+        st.write(summary_and_insights)
+
+
+
+
+        fundamental_summary = fundamental_llama_vultr.generate_summary_and_insights_from_fundamentals(advanced_info)
+
+        st.subheader("Summary and Investment Insights from Fundamentals:")
+        st.write(fundamental_summary)
+
+        # Load FinBERT model for sentiment analysis at the end
+
 
     else:
         st.error("No news found or an error occurred while fetching the news.")
