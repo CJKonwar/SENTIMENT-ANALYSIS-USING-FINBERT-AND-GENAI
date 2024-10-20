@@ -57,7 +57,7 @@ if company_name and symbol:
 
         advanced_info = get_advanced_info(symbol)
 
-        st.write("Generating summary and investment insights using Llama  (from news headlines)...")
+        st.write("Generating summary and investment insights(from news headlines)...")
         summary_and_insights = llama_analysis_vultr.generate_summary_and_insights(headlines_df)
 
         # Display summary and insights
@@ -66,6 +66,7 @@ if company_name and symbol:
 
 
 
+        st.write("Generating fundamental_summary (from fundamental data)...")
 
         fundamental_summary = fundamental_llama_vultr.generate_summary_and_insights_from_fundamentals(advanced_info)
 
