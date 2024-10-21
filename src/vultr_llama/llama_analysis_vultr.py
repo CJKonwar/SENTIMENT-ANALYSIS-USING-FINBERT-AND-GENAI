@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 
-# Load environment variables
+# Loading the environment variable
 load_dotenv(dotenv_path='../../.env')
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -14,13 +14,13 @@ def generate_summary_and_insights(headlines_df):
     api_url = "https://api.vultrinference.com/v1/chat/completions"  # Example URL, change as needed
     api_key = os.getenv("VULTR_API")
 
-    # Check if API keys are loaded correctly
+    # Check the api keys are loaded correctly
     if api_key is None:
         print("Error: API keys are not loaded properly.")
         return
 
 
-    # Concatenate headlines into a single string
+    # Concatenate the headlines
     headlines_text = ". ".join(headlines_df['Headline'].tolist())
 
     prompt = (
@@ -35,10 +35,10 @@ def generate_summary_and_insights(headlines_df):
     )
 
     payload = {
-        "model": "llama2-13b-chat-Q5_K_M",  # Replace with the model name you want to use
+        "model": "llama2-13b-chat-Q5_K_M",  # Load the model
         "messages": [
             {
-                "role": "user",  # Set to user role with the prompt content
+                "role": "user", 
                 "content": prompt
             }
         ],
@@ -53,24 +53,16 @@ def generate_summary_and_insights(headlines_df):
     # Set the headers, including the authorization header with the API key
     headers = {
         "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"  # Set content type to JSON
+        "Content-Type": "application/json"  # Set the type of content to json
     }
 
-    # Make the POST request to the API
+    # Make post request to api
     response = requests.post(api_url, headers=headers, json=payload)
 
     if response.status_code == 200:
         # Parse and print the generated response
         response_data = response.json()
         summary = response_data['choices'][0]['message']['content']
-
-        # Clean up the summary if needed (optional)
-        # For instance, you can split it at the first line break if you only want the summary part
-        # cleaned_summary = summary.split("\n\n", 1)[0]  # Keep only the first paragraph
-
-        # Print the extracted summary
-
-        # print(summary)
         return summary
     else:
         return f"Error {response.status_code}: {response.text}"
