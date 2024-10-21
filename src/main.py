@@ -18,7 +18,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def main(company_name, symbol):
-    # Fetch the top headlines for the company
+    # Fetching the top headlines for the company
     print(f"Fetching top news headlines for {company_name}...")
     headlines_df = news_fetcher.get_news(company_name, NEWS_API_KEY)
 
@@ -26,18 +26,18 @@ def main(company_name, symbol):
         print("No news found.")
         return
 
-    # Fetch basic stock info
+    # Fetching the basic stock info
     print(f"\nFetching basic stock info for {symbol}...")
     basic_info_df = get_basic_info(symbol)
     print(basic_info_df)
 
-    # Fetch advanced stock info
+    # Fetching the advanced stock info
     print(f"\nFetching advanced stock info for {symbol}...")
     advanced_info = get_advanced_info(symbol)
     for key, value in advanced_info.items():
         print(f"{key}: {value}")
 
-    # Generate summary and insights from fundamental data using Llama 2 model
+    # Generating summary and insights from fundamental_adv data using Llama 2 model
     print("Generating fundamental summary and insights using Llama 2...")
 
     llama_model, llama_tokenizer = fundamental_llama.load_llama2_model()
@@ -48,16 +48,16 @@ def main(company_name, symbol):
     print("\nFundamental Summary and Insights:")
     print(fundamental_summary_and_insights)
 
-    # Load FinBERT model for sentiment analysis (with CUDA if available)
+    # Loading FinBERT model for sentiment analysis (with CUDA if available)
     print("Loading FinBERT model...")
     device = "cuda" if torch.cuda.is_available() else "cpu"
     sentiment_pipeline = sentiment_analysis.load_finbert_model(device=device)
 
-    # Analyze sentiment of the headlines
+    # Analyze sentiment of the news headlines of the company
     print("Analyzing sentiment of news headlines...")
     headlines_with_sentiment = sentiment_analysis.analyze_sentiment(headlines_df, sentiment_pipeline)
 
-    # Display top headlines with sentiment
+    # Display the top headlines with sentiment
     print("\nTop 10 News Headlines with Sentiment:")
     print(headlines_with_sentiment)
 
@@ -72,7 +72,7 @@ def main(company_name, symbol):
     else:
         print("CUDA not available. Llama 2 model is using CPU.")
 
-    # Generate summary and insights using Llama 2
+    # Generating summary and insights using Llama 2
     print("Generating summary and insights using Llama 2...")
     llama_summary_and_insights = llama2_analysis.generate_summary_and_insights(headlines_df, llama_model,
                                                                                llama_tokenizer)
