@@ -3,16 +3,7 @@ import pandas as pd
 
 
 def get_all_stock_info(symbol):
-    """
-    Fetches a comprehensive set of stock information for the given symbol using yfinance
-    and returns it in a structured DataFrame.
 
-    Args:
-        symbol (str): The stock symbol to fetch data for.
-
-    Returns:
-        pandas.DataFrame: A DataFrame containing various stock metrics.
-    """
     stock = yf.Ticker(symbol)
 
     # Collecting various data points
@@ -32,19 +23,19 @@ def get_all_stock_info(symbol):
             'Operating Cash Flow',
         ],
         'Value': [
-            stock.info.get('longName', 'N/A'),  # Company Name
-            stock.info.get('marketCap', 'N/A'),  # Market Capitalization
-            stock.info.get('forwardPE', 'N/A'),  # Forward P/E ratio
-            stock.info.get('trailingPE', 'N/A'),  # Trailing P/E ratio
-            stock.info.get('priceToBook', 'N/A'),  # Price to Book ratio
-            stock.info.get('debtToEquity', 'N/A'),  # Debt to Equity ratio
-            stock.info.get('faceValue', 'N/A'),  # Face value of the stock
-            stock.info.get('returnOnEquity', 'N/A'),  # Return on Equity
-            stock.info.get('bookValue', 'N/A'),  # Book Value per share
-            stock.financials.loc['Total Revenue'][0] if 'Total Revenue' in stock.financials.index else 'N/A',  # Revenue
-            stock.financials.loc['Net Income'][0] if 'Net Income' in stock.financials.index else 'N/A',  # Net Income
+            stock.info.get('longName', 'N/A'),  
+            stock.info.get('marketCap', 'N/A'),  
+            stock.info.get('forwardPE', 'N/A'),  
+            stock.info.get('trailingPE', 'N/A'),  
+            stock.info.get('priceToBook', 'N/A'),  
+            stock.info.get('debtToEquity', 'N/A'),  
+            stock.info.get('faceValue', 'N/A'),  
+            stock.info.get('returnOnEquity', 'N/A'),  
+            stock.info.get('bookValue', 'N/A'),  
+            stock.financials.loc['Total Revenue'][0] if 'Total Revenue' in stock.financials.index else 'N/A',  
+            stock.financials.loc['Net Income'][0] if 'Net Income' in stock.financials.index else 'N/A',  
             stock.cashflow.loc['Cash Flow From Operating Activities'][
-                0] if 'Cash Flow From Operating Activities' in stock.cashflow.index else 'N/A',  # Operating Cash Flow
+                0] if 'Cash Flow From Operating Activities' in stock.cashflow.index else 'N/A', 
         ]
     }
 
