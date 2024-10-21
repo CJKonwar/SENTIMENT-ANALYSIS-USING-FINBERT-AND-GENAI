@@ -1,7 +1,5 @@
 import yfinance as yf
 
-
-
 def get_all_stock_info(symbol):
 
     stock = yf.Ticker(symbol)
