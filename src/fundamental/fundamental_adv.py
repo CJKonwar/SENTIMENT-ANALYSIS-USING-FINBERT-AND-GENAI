@@ -3,15 +3,7 @@ import yfinance as yf
 
 
 def get_all_stock_info(symbol):
-    """
-    Fetches a comprehensive set of stock information for the given symbol using yfinance.
 
-    Args:
-        symbol (str): The stock symbol to fetch data for.
-
-    Returns:
-        dict: A dictionary containing various stock metrics.
-    """
     stock = yf.Ticker(symbol)
 
     # Collecting various data points
