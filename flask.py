@@ -7,7 +7,7 @@ import torch
 from src.fundamental.fundamental_basic import get_all_stock_info as get_basic_info
 from src.fundamental.fundamental_adv import get_all_stock_info as get_advanced_info
 from src.vultr_llama import news_fetcher
-
+from chatbot.model_RAG import chatbot_vultr
 from flask import Flask, render_template, request, jsonify
 
 load_dotenv(dotenv_path='.env')
@@ -17,6 +17,17 @@ app = Flask(__name__)
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+@app.route('/chatbot_result', methods=['POST'])
+def chatbot():
+    query = request.form.get('query')  # symbol to get from the user side
+
+    if query:
+        result = chatbot_vultr(query)
+        return jsonify({result})
+    else:
+        return jsonify({"error": "Please provide a valid query."}), 400
 
 
 # For getting basic stock info from fundamental basic file

@@ -18,7 +18,7 @@ def text_split(extracted_data):
     text_chunks = text_splitter.split_documents(extracted_data)
     return text_chunks
 
-file_path = ""
+file_path = "finbert.pdf"
 extracted_data = load_pdf(file_path)
 text_chunks = text_split(extracted_data)
 

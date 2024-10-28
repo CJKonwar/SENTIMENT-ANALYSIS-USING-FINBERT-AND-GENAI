@@ -9,7 +9,7 @@ import json
 
 load_dotenv()
 VULTR_API_KEY = os.getenv("VULTR_API")
-collection_name = "FINBERT"  # Replace with your desired collection name
+collection_name = "finbert"  # Replace with your desired collection name
 
 
 VECTOR_STORE_ENDPOINT = "https://api.vultrinference.com/v1/vector_store"
