@@ -51,7 +51,7 @@ def chatbot_vultr(query):
 
 
     else:
-        print("Error:", response.status_code, response.text)
+        return "Error:", response.status_code, response.text
 
 
 if __name__ == '__main__':
