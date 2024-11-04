@@ -1,6 +1,9 @@
+from flask import Flask, send_file, request
 import yfinance as yf
 from fpdf import FPDF
 import pandas as pd
+import os
+
 
 # Function to fetch stock information using yfinance
 def get_all_stock_info(symbol):
