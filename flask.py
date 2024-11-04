@@ -78,27 +78,6 @@ def sentiment_analysis_route():
     else:
         return jsonify({"error": "Please provide a valid company name."}), 400
 
-
-
-#for generating investment insights based on news
-@app.route('/news_summary', methods=['POST'])
-def insights():
-    company_name = request.form.get('company_name')
-    
-    if company_name:
-        NEWS_API_KEY = os.getenv("NEWS_API_KEY")
-        headlines_df = news_fetcher.get_news(company_name, NEWS_API_KEY)
-        
-        if headlines_df is not None and not headlines_df.empty:
-            summary_and_insights = llama_analysis_vultr.generate_summary_and_insights(headlines_df)
-            return jsonify({summary_and_insights})
-        else:
-            return jsonify({"error": "No news available for generating insights."}), 404
-    else:
-        return jsonify({"error": "Please provide a valid company name."}), 400
-
-
-
 # for fetching fundamental stock info and generating insights
 @app.route('/fundamentals_summary', methods=['POST'])
 def fundamentals():
@@ -110,7 +89,55 @@ def fundamentals():
         return jsonify({fundamental_summary})
     else:
         return jsonify({"error": "Please provide a valid stock symbol."}), 400
+@app.route('/bullish', methods=['POST'])
+def bullish():
+    company_name = request.form.get('company_name')
 
+    if company_name:
+        NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+        headlines_df = news_fetcher.get_news(company_name, NEWS_API_KEY)
+
+        if headlines_df is not None and not headlines_df.empty:
+            summary_and_insights = llama_analysis_vultr.bullish(headlines_df)
+            return jsonify({summary_and_insights})
+        else:
+            return jsonify({"error": "No news available for generating insights."}), 404
+    else:
+        return jsonify({"error": "Please provide a valid company name."}), 400
+
+
+@app.route('/bearish', methods=['POST'])
+def bearish():
+    company_name = request.form.get('company_name')
+
+    if company_name:
+        NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+        headlines_df = news_fetcher.get_news(company_name, NEWS_API_KEY)
+
+        if headlines_df is not None and not headlines_df.empty:
+            summary_and_insights = llama_analysis_vultr.bearish(headlines_df)
+            return jsonify({summary_and_insights})
+        else:
+            return jsonify({"error": "No news available for generating insights."}), 404
+    else:
+        return jsonify({"error": "Please provide a valid company name."}), 400
+
+
+@app.route('/investment_insight', methods=['POST'])
+def insights():
+    company_name = request.form.get('company_name')
+
+    if company_name:
+        NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+        headlines_df = news_fetcher.get_news(company_name, NEWS_API_KEY)
+
+        if headlines_df is not None and not headlines_df.empty:
+            summary_and_insights = llama_analysis_vultr.investment_insights(headlines_df)
+            return jsonify({summary_and_insights})
+        else:
+            return jsonify({"error": "No news available for generating insights."}), 404
+    else:
+        return jsonify({"error": "Please provide a valid company name."}), 400
 
 
 if __name__ == '__main__':
