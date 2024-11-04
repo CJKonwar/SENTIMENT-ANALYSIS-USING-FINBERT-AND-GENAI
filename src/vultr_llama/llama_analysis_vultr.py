@@ -134,7 +134,7 @@ def investment_insights(headlines_df):
     return investment_insight
 
 
-if _name_ == '_main_':
+if __name__ == '__main__':
 
     NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
