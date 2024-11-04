@@ -8,8 +8,8 @@ from src.fundamental.fundamental_basic import get_all_stock_info as get_basic_in
 from src.fundamental.fundamental_adv import get_all_stock_info as get_advanced_info
 from src.vultr_llama import news_fetcher
 from chatbot.model_RAG import chatbot_vultr
-from flask import Flask, render_template, request, jsonify
-
+from flask import Flask, render_template, request, jsonify, send_file
+from src.fundamental import fundamental_adv
 load_dotenv(dotenv_path='.env')
 
 
@@ -139,6 +139,15 @@ def insights():
     else:
         return jsonify({"error": "Please provide a valid company name."}), 400
 
+# Flask route to download the PDF
+@app.route('/download-pdf')
+def download_pdf():
+    symbol = request.args.get('symbol')
+    stock_info = fundamental_adv.get_all_stock_info(symbol)
+    pdf_path = fundamental_adv.generate_pdf(symbol, stock_info)
+
+    # Send the file as a download
+    return send_file(pdf_path, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
