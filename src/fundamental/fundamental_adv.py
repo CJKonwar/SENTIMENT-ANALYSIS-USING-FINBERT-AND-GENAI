@@ -1,9 +1,6 @@
-from flask import Flask, send_file, request
 import yfinance as yf
 from fpdf import FPDF
 import pandas as pd
-import os
-
 
 # Function to fetch stock information using yfinance
 def get_all_stock_info(symbol):
@@ -24,7 +21,7 @@ def get_all_stock_info(symbol):
     }
     return stock_info
 
-# Function to generate the PDF from the fetched stock information
+# Generate the PDF from the fetched stock information
 def generate_pdf(symbol, stock_info):
     pdf = FPDF()
     pdf.add_page()
@@ -32,8 +29,8 @@ def generate_pdf(symbol, stock_info):
     pdf.cell(200, 10, f"Advanced Stock Information for {symbol}", 0, 1, "C")
     pdf.ln(10)
 
-    # Define a function to add wrapped text
-    def add_wrapped_text(pdf, title, data, width=180):
+    # Function to add wrapped text with a limit of 15 entries
+    def add_wrapped_text(pdf, title, data, width=180, limit=15):
         pdf.set_font("Arial", style="B", size=12)
         pdf.cell(200, 10, title, 0, 1, "L")
         pdf.set_font("Arial", size=10)
@@ -41,10 +38,14 @@ def generate_pdf(symbol, stock_info):
         if isinstance(data, str):
             pdf.multi_cell(w=width, h=8, txt=data, border=0, align='L')
         elif isinstance(data, pd.DataFrame):
+            # Limit to the top 15 rows if there are more than 15
+            data = data.head(limit)
             for idx, row in data.iterrows():
                 row_text = ', '.join([f"{col}: {row[col]}" for col in data.columns])
                 pdf.multi_cell(w=width, h=8, txt=row_text, border=0, align='L')
         elif isinstance(data, list):
+            # Limit to the top 15 items in a list
+            data = data[:limit]
             for item in data:
                 pdf.multi_cell(w=width, h=8, txt=str(item), border=0, align='L')
         else:
@@ -59,4 +60,5 @@ def generate_pdf(symbol, stock_info):
     pdf_output_path = f"{symbol}_advanced_info.pdf"
     pdf.output(pdf_output_path)
     return pdf_output_path
+
 
