@@ -10,6 +10,9 @@ from src.vultr_llama import news_fetcher
 from chatbot.model_RAG import chatbot_vultr
 from flask import Flask, render_template, request, jsonify, send_file
 from src.fundamental import fundamental_adv
+
+from chatbot.model_RAG import get_response
+
 load_dotenv(dotenv_path='.env')
 
 
@@ -17,6 +20,17 @@ app = Flask(__name__)
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+#for chatbot
+@app.route('/chatbot', methods=['POST'])
+def generate_response():
+    user_query = request.form.get('user_query')
+
+    if user_query:
+        response = get_response(user_query)
+        return jsonify({response})
+    else:
+        return jsonify({"Error generating response"}), 400
 
 
 @app.route('/chatbot_result', methods=['POST'])
