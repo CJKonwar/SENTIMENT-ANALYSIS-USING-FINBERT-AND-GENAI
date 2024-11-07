@@ -31,11 +31,10 @@ def get_all_stock_info(symbol):
             stock.info.get('debtToEquity', 'N/A'),  
             stock.info.get('faceValue', 'N/A'),  
             stock.info.get('returnOnEquity', 'N/A'),  
-            stock.info.get('bookValue', 'N/A'),  
-            stock.financials.loc['Total Revenue'][0] if 'Total Revenue' in stock.financials.index else 'N/A',  
-            stock.financials.loc['Net Income'][0] if 'Net Income' in stock.financials.index else 'N/A',  
-            stock.cashflow.loc['Cash Flow From Operating Activities'][
-                0] if 'Cash Flow From Operating Activities' in stock.cashflow.index else 'N/A', 
+            stock.info.get('bookValue', 'N/A'),
+            stock.financials.loc['Total Revenue'].iloc[0] if 'Total Revenue' in stock.financials.index else 'N/A',
+            stock.financials.loc['Net Income'].iloc[0] if 'Net Income' in stock.financials.index else 'N/A',  
+            stock.cashflow.loc['Cash Flow From Operating Activities'][0] if 'Cash Flow From Operating Activities' in stock.cashflow.index else 'N/A', 
         ]
     }
 

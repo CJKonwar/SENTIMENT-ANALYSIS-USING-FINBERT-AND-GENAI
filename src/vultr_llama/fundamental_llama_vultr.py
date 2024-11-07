@@ -105,8 +105,3 @@ def generate_summary_and_insights_from_fundamentals(stock_info):
         return summary
     else:
         return f"Error {response.status_code}: {response.text}"
-
-
-
-
-

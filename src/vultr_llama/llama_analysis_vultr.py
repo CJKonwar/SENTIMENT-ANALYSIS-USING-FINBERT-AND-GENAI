@@ -3,14 +3,12 @@ import requests
 import os
 from dotenv import load_dotenv
 
-
 # Loading the environment variable
-load_dotenv(dotenv_path='../../.env')
+load_dotenv()
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
-def generate_summary_and_insights(headlines_df):
+def send_request(prompt):
     api_url = "https://api.vultrinference.com/v1/chat/completions"  # Example URL, change as needed
     api_key = os.getenv("VULTR_API")
 
@@ -19,32 +17,19 @@ def generate_summary_and_insights(headlines_df):
         print("Error: API keys are not loaded properly.")
         return
 
-
     # Concatenate the headlines
-    headlines_text = ". ".join(headlines_df['Headline'].tolist())
-
-    prompt = (
-        "Analyze the following news headlines and provide a structured summary along with investment insights:\n\n"
-        f"Use the information from the following headlines:\n{headlines_text}\n\n"
-        "Please include the following sections in your response:\n"
-        "1. Summary: A brief summary of the news headlines.\n"
-        "2. Short-Term View: An assessment of the stock's potential performance in the short term.\n"
-        "3. Long-Term View: An assessment of the stock's potential performance in the long term.\n"
-        "4. Investment Recommendation: Suggestions on whether it’s a good time to invest in this company based on the analysis.\n"
-        "\nProvide your insights in a clear and concise manner without reiterating the headlines."
-    )
-
+    # "zephyr-7b-beta-Q5_K_M",
     payload = {
-        "model": "llama2-13b-chat-Q5_K_M",  # Load the model
+        "model": "llama2-13b-chat-Q5_K_M", # Load the model
         "messages": [
             {
-                "role": "user", 
+                "role": "user",
                 "content": prompt
             }
         ],
-        "max_tokens": 2000,
-        "seed": -1,
-        "temperature": 0.8,
+        "max_tokens": 1000,
+        "seed": 50,
+        "temperature": 2,
         "top_k": 40,
         "top_p": 0.9,
         "stream": False  # Set to False if streaming is not supported
@@ -68,5 +53,78 @@ def generate_summary_and_insights(headlines_df):
         return f"Error {response.status_code}: {response.text}"
 
 
-if __name__ == '__main__':
-    generate_summary_and_insights()
+
+def join_headlines(headlines_df):
+    
+    # Concatenate the headlines
+    headlines_text = ". ".join(headlines_df['title'].tolist())
+
+    return headlines_text
+
+def bullish(headlines_df):
+
+    headlines_text = join_headlines(headlines_df)
+
+    prompt_bullish = (
+        "Dear Financial Assistant,\n\n"
+        "Please analyze the following news headlines and provide a section titled 'Bullish Insights'. "
+        "In this section, highlight any positive trends, growth areas, or market confidence factors based on the headlines. "
+        "Keep this section around 50 words.\n\n"
+        "Here are the headlines:\n"
+        f"{headlines_text}\n\n"
+        "Ensure the section is concise, actionable, and uses paragraph format."
+    )
+
+    bullish_summary = send_request(prompt_bullish)
+
+    return bullish_summary
+
+def bearish(headlines_df):
+
+    headlines_text = join_headlines(headlines_df)
+
+    prompt_bearish = (
+        "Dear Financial Assistant,\n\n"
+        "Please analyze the following news headlines and provide a section titled 'Bearish Insights'. "
+        "In this section, highlight any negative trends or potential risks based on the headlines. "
+        "Focus on brief, focused points that could impact the market in the short-term. Limit this section to about 50 words.\n\n"
+        "Here are the headlines:\n"
+        f"{headlines_text}\n\n"
+        "Ensure the section is concise, actionable, and in uses paragraph format."
+    )
+
+    # Fetch bullish and bearish insights
+
+    bearish_summary = send_request(prompt_bearish)
+
+    return bearish_summary
+
+
+def investment_insights(headlines_df):
+
+    headlines_text = join_headlines(headlines_df)
+
+    # prompt_investment = (
+    #     "Dear Financial Assistant,\n\n"
+    #     "Please analyze the following news headlines and provide a section titled 'Investment Insights'. "
+    #     "In this section, offer insights on whether it might be a suitable time to invest based on both short-term and long-term indicators in the headlines. "
+    #     "Consider any potential risks and growth areas, and keep this section focused and actionable.\n\n"
+    #     "Here are the headlines:\n"
+    #     f"{headlines_text}\n\n"
+    #     "Ensure the section is concise, balanced, and uses bullet points."
+    # )
+    prompt_summary = (
+        "Dear Financial Assistant,\n\n"
+        "Please analyze the following news headlines and provide a section titled 'Investment Insights'. "
+        "In this section, offer insights on whether it might be a suitable time to invest based on both short-term and long-term indicators in the headlines. "
+        "Consider any potential risks and growth areas, and keep this section focused and actionable.\n\n"
+        "Here are the headlines:\n"
+        f"{headlines_text}\n\n"
+        "Ensure the section is concise, balanced, and uses paragraph.")
+
+
+    # Fetch bullish and bearish insights
+
+    investment_insight = send_request(prompt_summary)
+
+    return investment_insight
