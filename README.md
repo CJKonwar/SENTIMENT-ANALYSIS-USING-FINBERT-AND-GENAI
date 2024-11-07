@@ -63,3 +63,86 @@ SentifyAI uses [NewsAPI](https://newsapi.org/) to pull real-time financial news 
 
 ---
 
+Here's an enhanced README setup with code snippets to make the instructions clear and easy to follow:
+
+```markdown
+# SentifyAI
+
+SentifyAI is a sentiment analysis platform that provides insights into company news, stock sentiment, and fundamental analysis.
+
+## Setup and Usage Instructions
+
+### Prerequisites
+Ensure you have the following installed:
+- **Python** (3.7 or higher)
+- **pip** (Python package installer)
+- **Node.js** and **npm** (Node Package Manager)
+
+### Step 1: Clone the Repository
+Clone the SentifyAI GitHub repository to your local machine. Open a terminal or command prompt and run:
+```bash
+git clone https://github.com/CJKonwar/SentifyAI
+```
+
+### Step 2: Install Python Requirements
+Navigate to the project folder and install the required Python dependencies:
+
+1. Move to the SentifyAI folder:
+    ```bash
+    cd SentifyAI
+    ```
+
+2. Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+### Step 3: Set Up Environment Variables
+Create a `.env` file in the `backend` folder with all the required API keys and other configurations. Refer to the repository’s documentation or README for the specific variables needed.
+
+### Step 4: Run the Backend
+1. Move to the backend folder:
+    ```bash
+    cd backend
+    ```
+
+2. Start the backend server:
+    ```bash
+    python app.py
+    ```
+
+### Step 5: Set Up and Run the Frontend
+1. Navigate back to the main directory:
+    ```bash
+    cd ..
+    ```
+
+2. Move to the frontend folder:
+    ```bash
+    cd frontend
+    ```
+
+3. Install the necessary Node.js dependencies:
+    ```bash
+    npm install
+    ```
+
+4. Start the frontend development server:
+    ```bash
+    npm run dev
+    ```
+
+The website should now be accessible on your local server. Check the terminal output for the exact URL (typically `http://localhost:5173`).
+
+## Usage Instructions
+- **Select a Company**: Once the website is running, go to the top search bar and click on "Select Company." This will display a list of all S&P 500 companies. Choose a company to analyze.
+  
+- **Chatbot Assistance**: Use the chatbot located in the bottom right corner to ask any finance or stock market-related questions. The chatbot can provide insights and help with your analysis.
+
+--- 
+
+For additional details, please refer to the full documentation in the repository.
+```
+
+This README format provides all setup instructions in code snippets for each step, making it user-friendly for installation and usage. Let me know if you'd like to add anything else!
+
