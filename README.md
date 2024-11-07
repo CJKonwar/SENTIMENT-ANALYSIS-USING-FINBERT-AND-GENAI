@@ -65,7 +65,7 @@ SentifyAI uses [NewsAPI](https://newsapi.org/) to pull real-time financial news 
 
 Here's an enhanced README setup with code snippets to make the instructions clear and easy to follow:
 
-```markdown
+
 # SentifyAI
 
 SentifyAI is a sentiment analysis platform that provides insights into company news, stock sentiment, and fundamental analysis.
@@ -144,5 +144,5 @@ The website should now be accessible on your local server. Check the terminal ou
 For additional details, please refer to the full documentation in the repository.
 ```
 
-This README format provides all setup instructions in code snippets for each step, making it user-friendly for installation and usage. Let me know if you'd like to add anything else!
+
 
