@@ -1,6 +1,4 @@
-Here's a formatted README ready for GitHub:
 
----
 
 # SentifyAI: A Functional Platform for Financial News Classification and Sentiment Analysis
 
