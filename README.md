@@ -139,7 +139,7 @@ The website should now be accessible on your local server. Check the terminal ou
   
 - **Chatbot Assistance**: Use the chatbot located in the bottom right corner to ask any finance or stock market-related questions. The chatbot can provide insights and help with your analysis.
 
---- 
+
 
 
 
