@@ -141,8 +141,7 @@ The website should now be accessible on your local server. Check the terminal ou
 
 --- 
 
-For additional details, please refer to the full documentation in the repository.
-```
+
 
 
 
