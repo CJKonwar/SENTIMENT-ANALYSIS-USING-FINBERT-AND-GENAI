@@ -81,7 +81,7 @@ Ensure you have the following installed:
 ### Step 1: Clone the Repository
 Clone the SentifyAI GitHub repository to your local machine. Open a terminal or command prompt and run:
 ```bash
-git clone https://github.com/CJKonwar/SentifyAI
+git clone https://github.com/CJKonwar/SentifyAI.git
 ```
 
 ### Step 2: Install Python Requirements
