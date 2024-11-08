@@ -126,7 +126,7 @@ Create a `.env` file in the `backend` folder with all the required API keys and 
 
 To set up the environment for this project, add the following variables to a `.env` file in the `backend` folder. Each variable is described below:
 
-``env
+```env
 # API key for accessing the News API to fetch financial news and data for the application.
 NEWS_API_KEY=your_news_api_key_here
 
@@ -138,7 +138,7 @@ VULTR_API=your_vultr_api_key_here
 
 # PostgreSQL database connection URL, which provides access to the application’s primary database.
 DATABASE_URL=your_database_url_here
-
+```
 
 ### Step 4: Run the Backend
 1. Move to the backend folder:
