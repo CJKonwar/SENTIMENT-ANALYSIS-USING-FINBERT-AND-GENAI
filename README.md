@@ -130,9 +130,21 @@ DATABASE_URL=your_database_url_here
     ```
 
 2. Start the backend server:
-    ```bash
+   
+  For Windows:
+  
+  ```bash
     python app.py
-    ```
+  ```
+  
+
+For Mac/Unix:
+  ```bash
+    export FLASK_APP=app.py
+    export FLASK_ENV=development
+    flask run
+
+  ```
 
 ### Step 5: Set Up and Run the Frontend
 1. Navigate back to the main directory:
