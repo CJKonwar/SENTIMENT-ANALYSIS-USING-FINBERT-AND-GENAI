@@ -1,5 +1,11 @@
 #  WEBSITE LINK : https://sentifyai.tech/
 
+
+![WhatsApp Image 2024-11-08 at 14 02 53_b5584ccb](https://github.com/user-attachments/assets/bb5e3bb0-3847-4155-8edb-9212a65c73fc)
+
+
+
+
 # SentifyAI: A Functional Platform for Financial News Classification and Sentiment Analysis
 
 **SentifyAI** is a comprehensive platform that classifies financial news articles, performs sentiment analysis, and provides real-time investment insights. The platform integrates machine learning models with a user-friendly interface, offering essential financial data, sentiment classifications, and visual market trends for investors and financial analysts.
