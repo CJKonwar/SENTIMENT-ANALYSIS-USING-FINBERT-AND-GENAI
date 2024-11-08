@@ -68,7 +68,7 @@ SentifyAI uses [NewsAPI](https://newsapi.org/) to pull real-time financial news 
 
 ---
 
-Here's an enhanced README setup with code snippets to make the instructions clear and easy to follow:
+
 
 
 # SentifyAI
@@ -162,6 +162,7 @@ The website should now be accessible on your local server. Check the terminal ou
   
 - **Chatbot Assistance**: Use the chatbot located in the bottom right corner to ask any finance or stock market-related questions. The chatbot can provide insights and help with your analysis.
 
+#Here are some of the Images of our website
 ![WhatsApp Image 2024-11-08 at 14 02 53_1607ed97](https://github.com/user-attachments/assets/fad8ef18-77fd-4ae7-a472-982efbba170c)
 
 
