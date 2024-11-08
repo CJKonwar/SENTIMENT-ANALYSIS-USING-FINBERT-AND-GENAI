@@ -126,7 +126,7 @@ Create a `.env` file in the `backend` folder with all the required API keys and 
 
 To set up the environment for this project, add the following variables to a `.env` file in the `backend` folder. Each variable is described below:
 
-```env
+``env
 # API key for accessing the News API to fetch financial news and data for the application.
 NEWS_API_KEY=your_news_api_key_here
 
