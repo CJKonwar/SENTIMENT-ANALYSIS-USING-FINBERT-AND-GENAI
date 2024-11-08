@@ -106,6 +106,7 @@ Clone the SentifyAI GitHub repository to your local machine. Open a terminal or 
 git clone https://github.com/CJKonwar/SentifyAI.git
 ```
 
+
 ### Step 2: Install Python Requirements
 Navigate to the project folder and install the required Python dependencies:
 
@@ -121,6 +122,23 @@ Navigate to the project folder and install the required Python dependencies:
 
 ### Step 3: Set Up Environment Variables
 Create a `.env` file in the `backend` folder with all the required API keys and other configurations. Refer to the repository’s documentation or README for the specific variables needed.
+## Environment Variables
+
+To set up the environment for this project, add the following variables to a `.env` file in the `backend` folder. Each variable is described below:
+
+```env
+# API key for accessing the News API to fetch financial news and data for the application.
+NEWS_API_KEY=your_news_api_key_here
+
+# Hugging Face API token for accessing NLP models or datasets from Hugging Face.
+hf_token=your_hugging_face_token_here
+
+# API key for interacting with Vultr cloud services.
+VULTR_API=your_vultr_api_key_here
+
+# PostgreSQL database connection URL, which provides access to the application’s primary database.
+DATABASE_URL=your_database_url_here
+
 
 ### Step 4: Run the Backend
 1. Move to the backend folder:
