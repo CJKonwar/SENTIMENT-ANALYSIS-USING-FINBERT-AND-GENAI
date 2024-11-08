@@ -4,23 +4,6 @@
 ![WhatsApp Image 2024-11-08 at 14 02 53_b5584ccb](https://github.com/user-attachments/assets/bb5e3bb0-3847-4155-8edb-9212a65c73fc)
 
 
-![WhatsApp Image 2024-11-08 at 14 02 53_1607ed97](https://github.com/user-attachments/assets/fad8ef18-77fd-4ae7-a472-982efbba170c)
-
-
-![WhatsApp Image 2024-11-08 at 14 02 53_01d26f0b](https://github.com/user-attachments/assets/d83756ed-aa4c-420d-958b-07cca2ed9d7b)
-
-![WhatsApp Image 2024-11-08 at 14 02 53_dc6b9ff6](https://github.com/user-attachments/assets/c125ded0-42b3-4a0b-880e-f4f4a7f28493)
-
-
-
-![WhatsApp Image 2024-11-08 at 14 14 25_c5496af7](https://github.com/user-attachments/assets/25c1d386-8718-4bfd-b088-6fdedf8b7cec)
-
-
-
-
-
-
-
 
 # SentifyAI: A Functional Platform for Financial News Classification and Sentiment Analysis
 
@@ -179,6 +162,16 @@ The website should now be accessible on your local server. Check the terminal ou
   
 - **Chatbot Assistance**: Use the chatbot located in the bottom right corner to ask any finance or stock market-related questions. The chatbot can provide insights and help with your analysis.
 
+![WhatsApp Image 2024-11-08 at 14 02 53_1607ed97](https://github.com/user-attachments/assets/fad8ef18-77fd-4ae7-a472-982efbba170c)
+
+
+![WhatsApp Image 2024-11-08 at 14 02 53_01d26f0b](https://github.com/user-attachments/assets/d83756ed-aa4c-420d-958b-07cca2ed9d7b)
+
+![WhatsApp Image 2024-11-08 at 14 02 53_dc6b9ff6](https://github.com/user-attachments/assets/c125ded0-42b3-4a0b-880e-f4f4a7f28493)
+
+
+
+![WhatsApp Image 2024-11-08 at 14 14 25_c5496af7](https://github.com/user-attachments/assets/25c1d386-8718-4bfd-b088-6fdedf8b7cec)
 
 
 
