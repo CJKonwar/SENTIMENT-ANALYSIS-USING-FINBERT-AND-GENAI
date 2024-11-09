@@ -1,11 +1,11 @@
-Run the Backend
+# Run the Backend
 
 Start the backend server:
-For Windows:
+## For Windows:
 ```bash 
   python app.py
 ```
-For Mac/Unix:
+## For Mac/Unix:
 ```bash
   export FLASK_APP=app.py
   export FLASK_ENV=development
