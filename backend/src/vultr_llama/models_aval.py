@@ -1,15 +1,13 @@
-import pathlib
 import requests
 from dotenv import load_dotenv
 import os
 
-# Replace with your actual Vultr API key
-load_dotenv(pathlib.Path.cwd() / '.env')
+load_dotenv()
 
 api_key = os.getenv('VULTR_API')
-
+#Function to see no of models available at vultr api
 def fetch_model():
-    # Set the headers for authorization
+    # Set the headers 
     headers = {
         "Authorization": f"Bearer {api_key}"
     }
@@ -22,7 +20,6 @@ def fetch_model():
         print("Available models:")
 
         data = response.json()
-        # return data[0]
 
         print([model['model'] for model in data['models']])
 
