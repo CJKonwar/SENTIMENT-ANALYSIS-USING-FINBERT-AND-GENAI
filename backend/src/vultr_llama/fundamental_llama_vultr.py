@@ -6,9 +6,10 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv(dotenv_path='../../.env')
 
-
+#Function to generate insights from stock info 
 def generate_summary_and_insights_from_fundamentals(stock_info):
-    api_url = "https://api.vultrinference.com/v1/chat/completions"  # Example URL, change as needed
+    # Load the url 
+    api_url = "https://api.vultrinference.com/v1/chat/completions"  
     api_key = os.getenv("VULTR_API")
 
     # Check if API keys are loaded correctly
@@ -26,7 +27,7 @@ def generate_summary_and_insights_from_fundamentals(stock_info):
     earnings_estimate = stock_info.get('Earnings Estimate', 'No data available')
     revenue_estimate = stock_info.get('Revenue Estimate', 'No data available')
 
-    # Formulating a concise prompt
+    # The Prompt
     prompt = (
             "Analyze the following stock's fundamental data and provide a summary:\n\n"
 
@@ -63,13 +64,12 @@ def generate_summary_and_insights_from_fundamentals(stock_info):
             + f"- Growth: {revenue_estimate['growth'].iloc[0]}\n"
     )
 
-    # Now, prompt can be used for further analysis or processing
-
+    # Load the model
     payload = {
-        "model": "llama2-13b-chat-Q5_K_M",  # Replace with the model name you want to use
+        "model": "llama2-13b-chat-Q5_K_M",  
         "messages": [
             {
-                "role": "user",  # Set to user role with the prompt content
+                "role": "user", 
                 "content": prompt
             }
         ],
@@ -81,27 +81,19 @@ def generate_summary_and_insights_from_fundamentals(stock_info):
         "stream": False  # Set to False if streaming is not supported
     }
 
-    # Set the headers, including the authorization header with the API key
+    # Loading the headers
     headers = {
         "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"  # Set content type to JSON
+        "Content-Type": "application/json"  
     }
 
-    # Make the POST request to the API
+    # Make the request to the API
     response = requests.post(api_url, headers=headers, json=payload)
 
+    # Parse and print the generated response
     if response.status_code == 200:
-        # Parse and print the generated response
         response_data = response.json()
         summary = response_data['choices'][0]['message']['content']
-
-        # Clean up the summary if needed (optional)
-        # For instance, you can split it at the first line break if you only want the summary part
-        # cleaned_summary = summary.split("\n\n", 1)[0]  # Keep only the first paragraph
-
-        # Print the extracted summary
-
-        # print(summary)
         return summary
     else:
         return f"Error {response.status_code}: {response.text}"
