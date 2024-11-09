@@ -8,11 +8,12 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 load_dotenv()
 
+# Load the files
 def load_pdf(file_path):
     loader = PyPDFLoader(file_path)
     documents = loader.load()
     return documents
-
+#Split into chunks
 def text_split(extracted_data):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=20)
     text_chunks = text_splitter.split_documents(extracted_data)
@@ -24,7 +25,7 @@ text_chunks = text_split(extracted_data)
 
 VULTR_API_KEY = os.getenv("VULTR_API")
 collection_id = "sentify"
-
+#Access URL
 VECTOR_STORE_ENDPOINT = f"https://api.vultrinference.com/v1/vector_store/{collection_id}/items"
 
 
