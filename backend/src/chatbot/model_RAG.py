@@ -11,7 +11,7 @@ load_dotenv()
 
 VULTR_API_KEY = os.getenv("VULTR_API")
 collection_id = "aisentify"
-model_name = "llama2-7b-chat-Q5_K_M"
+model_name = "llama2-13b-chat-Q5_K_M"
 
 def get_response(user_message):
     #Access URL
