@@ -10,11 +10,11 @@ load_dotenv()
 
 
 VULTR_API_KEY = os.getenv("VULTR_API")
-collection_id = "finbert"
+collection_id = "aisentify"
 model_name = "llama2-7b-chat-Q5_K_M"
 
 def get_response(user_message):
-
+    #Access URL
     chat_completion_endpoint = "https://api.vultrinference.com/v1/chat/completions/RAG"
 
     # Set up headers
@@ -23,7 +23,7 @@ def get_response(user_message):
         "Content-Type": "application/json"
     }
 
-
+    #Load the model 
     payload = {
         "collection": collection_id,
         "model": model_name,
@@ -40,8 +40,10 @@ def get_response(user_message):
         "top_p": 0.9
     }
 
-
+    #Response given by chatbot
     response = requests.post(chat_completion_endpoint, headers=headers, data=json.dumps(payload))
+    # Parse and print the generated response
+
     if response.status_code == 200:
         result = response.json()['choices'][0]['message']['content']
         return result
@@ -50,8 +52,8 @@ def get_response(user_message):
     
     
 def get_response1(prompt):
-
-    api_url = "https://api.vultrinference.com/v1/chat/completions"  # Example URL, change as needed
+    #Access URL
+    api_url = "https://api.vultrinference.com/v1/chat/completions"  
     api_key = os.getenv("VULTR_API")
 
     # Check the api keys are loaded correctly
@@ -59,10 +61,9 @@ def get_response1(prompt):
         print("Error: API keys are not loaded properly.")
         return
 
-    # Concatenate the headlines
-    # "zephyr-7b-beta-Q5_K_M",
+    # Load the model
     payload = {
-        "model": "llama2-13b-chat-Q5_K_M",  # Load the model
+        "model": "llama2-13b-chat-Q5_K_M",  
         "messages": [
             {
                 "role": "user",
@@ -80,14 +81,14 @@ def get_response1(prompt):
     # Set the headers, including the authorization header with the API key
     headers = {
         "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"  # Set the type of content to json
+        "Content-Type": "application/json" 
     }
 
-    # Make post request to api
+    # Generate the response
     response = requests.post(api_url, headers=headers, json=payload)
-
+     # Parse and print the generated response
     if response.status_code == 200:
-        # Parse and print the generated response
+      
         response_data = response.json()
         summary = response_data['choices'][0]['message']['content']
         return summary
