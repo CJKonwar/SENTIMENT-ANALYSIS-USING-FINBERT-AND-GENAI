@@ -2,10 +2,10 @@ from transformers import BertTokenizer, BertForSequenceClassification, pipeline
 import pandas as pd
 import torch
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
-
+# Function to lead the sentiment analysis model 
 def load_finbert_model(device):
     model_name = "yiyanghkust/finbert-tone"
+    # Tokenizer 
     tokenizer = BertTokenizer.from_pretrained(model_name)
 
     # Load the model to CUDA if available
@@ -17,7 +17,7 @@ def load_finbert_model(device):
 
     return nlp
 
-
+# Function to analyze sentiment
 def analyze_sentiment(headlines_df, sentiment_pipeline):
     sentiments = []
     for headline in headlines_df['title']:
@@ -25,7 +25,6 @@ def analyze_sentiment(headlines_df, sentiment_pipeline):
         sentiments.append(sentiment)
 
     # Adding sentiment information to the DataFrame
-    # print(sentiments)
     headlines_df['sentiment'] = [sentiment['label'] for sentiment in sentiments]
     headlines_df['confidence'] = [sentiment['score'] for sentiment in sentiments]
     return headlines_df
