@@ -59,7 +59,7 @@ def generate_response():
     user_query = request.json.get('query')
 
     if user_query:
-        response = get_response1(user_query)
+        response = get_response(user_query)
         # response = get_response(user_query)
         print(response)
         return jsonify({"reply": response})
