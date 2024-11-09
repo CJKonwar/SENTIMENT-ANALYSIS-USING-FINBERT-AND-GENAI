@@ -1,7 +1,7 @@
 import yfinance as yf
 import pandas as pd
 
-
+# Function to get basic stock info
 def get_all_stock_info(symbol):
 
     stock = yf.Ticker(symbol)
