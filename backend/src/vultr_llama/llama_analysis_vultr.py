@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 
 # Loading the environment variable
 load_dotenv()
-
+#Check gpu is available 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+#Function to load the model 
 def send_request(prompt):
-    api_url = "https://api.vultrinference.com/v1/chat/completions"  # Example URL, change as needed
+    api_url = "https://api.vultrinference.com/v1/chat/completions"  
     api_key = os.getenv("VULTR_API")
 
     # Check the api keys are loaded correctly
@@ -17,10 +17,9 @@ def send_request(prompt):
         print("Error: API keys are not loaded properly.")
         return
 
-    # Concatenate the headlines
-    # "zephyr-7b-beta-Q5_K_M",
+    #Load the model
     payload = {
-        "model": "llama2-13b-chat-Q5_K_M", # Load the model
+        "model": "llama2-13b-chat-Q5_K_M", 
         "messages": [
             {
                 "role": "user",
@@ -32,20 +31,20 @@ def send_request(prompt):
         "temperature": 2,
         "top_k": 40,
         "top_p": 0.9,
-        "stream": False  # Set to False if streaming is not supported
+        "stream": False 
     }
 
-    # Set the headers, including the authorization header with the API key
+    # Set the headers
     headers = {
         "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"  # Set the type of content to json
+        "Content-Type": "application/json"  
     }
 
-    # Make post request to api
+    # Make request to api
     response = requests.post(api_url, headers=headers, json=payload)
 
+    # Parse and print the generated response
     if response.status_code == 200:
-        # Parse and print the generated response
         response_data = response.json()
         summary = response_data['choices'][0]['message']['content']
         return summary
@@ -53,14 +52,14 @@ def send_request(prompt):
         return f"Error {response.status_code}: {response.text}"
 
 
-
+#Function to Join the headlines 
 def join_headlines(headlines_df):
     
     # Concatenate the headlines
     headlines_text = ". ".join(headlines_df['title'].tolist())
 
     return headlines_text
-
+#Function to generate bullish overview
 def bullish(headlines_df):
 
     headlines_text = join_headlines(headlines_df)
@@ -78,7 +77,8 @@ def bullish(headlines_df):
     bullish_summary = send_request(prompt_bullish)
 
     return bullish_summary
-
+    
+#Function to generate bearish overview
 def bearish(headlines_df):
 
     headlines_text = join_headlines(headlines_df)
@@ -93,26 +93,16 @@ def bearish(headlines_df):
         "Ensure the section is concise, actionable, and in uses paragraph format."
     )
 
-    # Fetch bullish and bearish insights
 
     bearish_summary = send_request(prompt_bearish)
 
     return bearish_summary
-
-
+    
+#Function to generate investment insights
 def investment_insights(headlines_df):
 
     headlines_text = join_headlines(headlines_df)
 
-    # prompt_investment = (
-    #     "Dear Financial Assistant,\n\n"
-    #     "Please analyze the following news headlines and provide a section titled 'Investment Insights'. "
-    #     "In this section, offer insights on whether it might be a suitable time to invest based on both short-term and long-term indicators in the headlines. "
-    #     "Consider any potential risks and growth areas, and keep this section focused and actionable.\n\n"
-    #     "Here are the headlines:\n"
-    #     f"{headlines_text}\n\n"
-    #     "Ensure the section is concise, balanced, and uses bullet points."
-    # )
     prompt_summary = (
         "Dear Financial Assistant,\n\n"
         "Please analyze the following news headlines and provide a section titled 'Investment Insights'. "
@@ -122,8 +112,6 @@ def investment_insights(headlines_df):
         f"{headlines_text}\n\n"
         "Ensure the section is concise, balanced, and uses paragraph.")
 
-
-    # Fetch bullish and bearish insights
 
     investment_insight = send_request(prompt_summary)
 
