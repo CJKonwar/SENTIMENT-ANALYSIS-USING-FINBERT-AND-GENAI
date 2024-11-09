@@ -1,29 +1,26 @@
 import requests
 import pandas as pd
 from typing import *
-
+# Function to get the news from news api
 def get_news(company_name: str, api_key: str) -> Optional[Tuple[pd.DataFrame, List]]:
     """
     Fetches news headlines for the given company using the News API.
-
     Args:
-        company_name (str): The name of the company to fetch news for.
-        api_key (str): The API key for accessing the News API.
-
+        company_name ,api_key
     Returns:
-        Optional[Tuple[pd.DataFrame, List]]: A tuple containing:
-            - A pandas DataFrame with news headlines, URLs, and image links.
-            - Returns None if the API request fails.
+        A Pandas Dataframe
     """
+    # Load the Url
     url = f'https://newsapi.org/v2/everything?q={company_name}&apiKey={api_key}&pageSize=50'
     response = requests.get(url)
-
+    # Check is response is generated
     if response.status_code != 200:
         print(f"Error fetching news: {response.status_code}")
         return None
-
+    
     articles = response.json().get('articles', [])
     valid_articles = []
+    # get the title url etc
     for article in articles:
         if article['title'] and article['url'] and 'removed' not in article['url']:
             valid_articles.append({
