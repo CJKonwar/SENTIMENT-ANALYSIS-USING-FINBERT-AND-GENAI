@@ -1,4 +1,4 @@
-#  WEBSITE LINK : https://sentifyai.tech/
+#  WEBSITE LINK : https://sentifyai.tech
 
 
 ![WhatsApp Image 2024-11-08 at 14 02 53_b5584ccb](https://github.com/user-attachments/assets/bb5e3bb0-3847-4155-8edb-9212a65c73fc)
