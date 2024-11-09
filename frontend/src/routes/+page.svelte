@@ -152,14 +152,15 @@
 
 	<!-- Chat Bot Dialog -->
 	<Dialog.Root>
-		<Dialog.Trigger class="absolute bottom-8 right-8 z-50">
-			<div class="grid aspect-square w-16 place-content-center rounded-full bg-black">
-				<Bot size={32} />
-			</div>
-		</Dialog.Trigger>
-		<Dialog.Content class="border-gray-600 p-2">
-			<ChatBot />
-		</Dialog.Content>
+	  <Dialog.Trigger class="absolute bottom-2 right-2 z-50 flex items-center gap-2 bg-gray-800 p-2 rounded-full">
+	    <span class="text-white font-semibold">Chatbot</span>
+	    <div class="grid aspect-square w-16 place-content-center rounded-full bg-white">
+	      <Bot size={32} class="text-black" />
+	    </div>
+	  </Dialog.Trigger>
+	  <Dialog.Content class="border-gray-600 p-2">
+	    <ChatBot />
+	  </Dialog.Content>
 	</Dialog.Root>
 
 	<!-- Main Container for Left and Right Sections -->
@@ -214,29 +215,29 @@
 		<span>Download Advanced Fundamental</span>
 	</Button>
 
-				<Separator />
+	<Separator />
 
-				<div class="summary-section">
-					<Summary data={results.fundamentalSummary} />
+	<div class="summary-section">
+		<Summary data={results.fundamentalSummary} />
 
-				</div>
-			{/if}
+	</div>
+	{/if}
 
 			<!-- Skeleton Loader for Loading State -->
-			{#if results.fundamentalSummary === '' || results.investmentInsights === '' || results.basicInfo.length === 0}
-				<div class="h-fit p-2">
-					<Skeleton class="mx-4 my-3 w-1/2 px-2 py-5" />
-					<Skeleton class="m-3 w-5/6 rounded-lg p-2" />
-					<Skeleton class="m-3 w-11/12 rounded-lg p-2" />
-					<Skeleton class="m-3 w-5/6 rounded-lg p-2" />
-				</div>
-			{/if}
-		</div>
+	{#if results.fundamentalSummary === '' || results.investmentInsights === '' || results.basicInfo.length === 0}
+		<div class="h-fit p-2">
+		<Skeleton class="mx-4 my-3 w-1/2 px-2 py-5" />
+		<Skeleton class="m-3 w-5/6 rounded-lg p-2" />
+		<Skeleton class="m-3 w-11/12 rounded-lg p-2" />
+		<Skeleton class="m-3 w-5/6 rounded-lg p-2" />
+	</div>
+	{/if}
+	</div>
 
-		<!-- Right Section: News Sentiments -->
-		<div class="right-section no-scrollbar m-1 box-border flex max-h-[100vh] w-1/3 flex-col gap-4 overflow-y-scroll rounded-xl border-2 border-gray-600 p-2">
-			{#if results.news.length > 0}
-				<h1 class="px-4 py-2 text-2xl">News Sentiments</h1>
+	<!-- Right Section: News Sentiments -->
+	<div class="right-section no-scrollbar m-1 box-border flex max-h-[100vh] w-1/3 flex-col gap-4 overflow-y-scroll rounded-xl border-2 border-gray-600 p-2">
+		{#if results.news.length > 0}
+			<h1 class="px-4 py-2 text-2xl">News Sentiments</h1>
 				<div class="news-section flex h-max w-full flex-col gap-2">
 					{#each results.news as news}
 						<NewsCard {...news} />
