@@ -9,7 +9,7 @@ load_dotenv()
 VULTR_API_KEY = os.getenv("VULTR_API")
 collection_id = "aisentify"
 model_name = "llama2-13b-chat-Q5_K_M"
-
+# Function to get response using custom collection (using own vector database)
 def get_response(user_message):
     #Access URL
     chat_completion_endpoint = "https://api.vultrinference.com/v1/chat/completions/RAG"
@@ -47,7 +47,7 @@ def get_response(user_message):
     else:
         return response.status_code, response.text
     
-    
+ # Function to generate usual response   
 def get_response1(prompt):
     #Access URL
     api_url = "https://api.vultrinference.com/v1/chat/completions"  
