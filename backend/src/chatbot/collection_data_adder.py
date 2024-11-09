@@ -24,7 +24,7 @@ extracted_data = load_pdf(file_path)
 text_chunks = text_split(extracted_data)
 
 VULTR_API_KEY = os.getenv("VULTR_API")
-collection_id = "sentify"
+collection_id = "aisentify"
 #Access URL
 VECTOR_STORE_ENDPOINT = f"https://api.vultrinference.com/v1/vector_store/{collection_id}/items"
 
