@@ -74,6 +74,10 @@
 		<Button type="submit" class="aspect-square rounded-full p-2">
 			<Send class="aspect-square w-full" />
 		</Button>
+		<Button class="aspect-square rounded-full p-2">
+			<a href="http://localhost:8000/chatbot" target="_blank">LaravelChatbot</a>
+
+		</Button>
 	</form>
 </div>
 
