@@ -1,6 +1,3 @@
-<img width="1470" alt="Screenshot 2024-11-12 at 11 22 45 PM" src="https://github.com/user-attachments/assets/fce82f7c-cd12-4ded-8c18-f5884877abbd">#  WEBSITE LINK : https://sentifyai.tech
-
-
 ![WhatsApp Image 2024-11-08 at 14 02 53_b5584ccb](https://github.com/user-attachments/assets/bb5e3bb0-3847-4155-8edb-9212a65c73fc)
 
 
