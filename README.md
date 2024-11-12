@@ -167,6 +167,24 @@ For Mac/Unix:
     npm run dev
     ```
 
+### Step 6: Set Up the PHP server for chatbot
+1. Install PHP and Composer and other laravel dependencies
+2. Create the chatbot folder
+   ```bash
+   composer create-project laravel/laravel chatbot
+
+   ```
+3. Copy the files present in chatbot-app folder into chatbot folder
+4. Run the following
+```bash
+cd chatbot
+composer require guzzlehttp/guzzle
+```
+5. Run the PHP server
+```bash
+php artisan serve
+```
+   
 The website should now be accessible on your local server. Check the terminal output for the exact URL (typically `http://localhost:5173`).
 
 ## Usage Instructions
