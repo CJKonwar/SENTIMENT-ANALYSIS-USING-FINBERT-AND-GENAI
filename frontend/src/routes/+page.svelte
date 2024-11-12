@@ -16,7 +16,6 @@
 		NewsSkeleton,
 		StockInfo,
 		Tradingview,
-		StockWidget,
 		Insight,
 		Summary,
 		StockViews,
@@ -51,6 +50,7 @@
 
 		socket.on('news', (data) => {
 			results.news = data.data;
+
 		});
 
 		socket.on('basic_info', (data) => {
@@ -118,6 +118,10 @@
 	}
 </script>
 <style>
+
+	.right-section-mob{
+		display: none;
+	}
 	/* Responsive design: stack left and right sections vertically on smaller screens */
 	@media (max-width: 768px) {
 		.main-container {
@@ -125,7 +129,7 @@
 		}
 
 		.left-section,
-		.right-section {
+		.right-section-mob {
 			width: 100%;
 		}
 
@@ -134,37 +138,51 @@
 		}
 	}
 	@media (max-width: 768px) {
-		.right-section {
-			width: 100%; /* Full width on small screens */
+		.mob-chat{
+			display: none;
+		}
+		.right-section-dex{
+			display: none;
+		}
+		.right-section-mob {
+			display: block;
 
-			margin-top: 0; /* No margin-top for small screens */
 		}
 	}
 </style>
 <div class="fixed h-screen w-screen">
 	<Toaster position="bottom-center" richColors />
+
 	<nav class="mx-auto my-2 flex flex-col sm:flex-row items-center gap-6 px-8 py-4">
-	<!-- Search Bar and Download Button -->
-	<Search {selectedCompany} on:updateCompany={handleUpdate} />
+		<Search {selectedCompany} on:updateCompany={handleUpdate} />
 
 </nav>
 
 
+
 	<!-- Chat Bot Dialog -->
-	<Dialog.Root>
-	  <Dialog.Trigger class="absolute bottom-2 right-2 z-50 flex items-center gap-2 bg-gray-800 p-2 rounded-full">
-	    <span class="text-white font-semibold">Chatbot</span>
-	    <div class="grid aspect-square w-16 place-content-center rounded-full bg-white">
-	      <Bot size={32} class="text-black" />
-	    </div>
-	  </Dialog.Trigger>
-	  <Dialog.Content class="border-gray-600 p-2">
-	    <ChatBot />
-	  </Dialog.Content>
-	</Dialog.Root>
+	<div class="chatbot-dex">
+		<Dialog.Root>
+		  <Dialog.Trigger class="absolute bottom-7 right-3 z-50 flex items-center gap-2 bg-gray-800 p-2 rounded-full">
+			  <div class="mob-chat">
+			<span class="text-white font-semibold">Chatbot</span>
+				  </div>
+			<div class="grid aspect-square w-16 place-content-center rounded-full bg-white">
+			  <Bot size={34} class="text-black" />
+			</div>
+		  </Dialog.Trigger>
+		  <Dialog.Content class="border-gray-600 p-2">
+			<ChatBot />
+		  </Dialog.Content>
+		</Dialog.Root>
+
+	</div>
+
+
 
 	<!-- Main Container for Left and Right Sections -->
 	<div class="main-container box-border flex h-[90vh] w-full">
+
 		<!-- Left Section -->
 		<div class="left-section no-scrollbar m-1 w-2/3 overflow-y-scroll pl-3 pr-2">
 			<!-- Widgets and Trading Views -->
@@ -183,6 +201,19 @@
 				</div>
 
 			{/if}
+
+			<div class="right-section-mob scrollbar m-1 box-border flex max-h-[100vh] w-1/3 flex-col gap-4 overflow-y-scroll rounded-xl border-2 border-gray-600 p-2">
+			{#if results.news.length > 0}
+				<h1 class="px-4 py-2 text-2xl">News Sentiments</h1>
+				<div class="news-section flex h-max w-full flex-col gap-2">
+					{#each results.news as news}
+						<NewsCard {...news} />
+					{/each}
+				</div>
+			{:else}
+				<NewsSkeleton />
+			{/if}
+		</div>
 			{#if results.bullishView.length > 0 || results.bearishView.length > 0}
 				<Separator />
 				<div class="views-section">
@@ -215,29 +246,34 @@
 		<span>Download Advanced Fundamental</span>
 	</Button>
 
-	<Separator />
+				<Separator />
 
-	<div class="summary-section">
-		<Summary data={results.fundamentalSummary} />
+				<div class="summary-section">
+					<Summary data={results.fundamentalSummary} />
 
-	</div>
-	{/if}
+				</div>
+			{/if}
 
 			<!-- Skeleton Loader for Loading State -->
-	{#if results.fundamentalSummary === '' || results.investmentInsights === '' || results.basicInfo.length === 0}
-		<div class="h-fit p-2">
-		<Skeleton class="mx-4 my-3 w-1/2 px-2 py-5" />
-		<Skeleton class="m-3 w-5/6 rounded-lg p-2" />
-		<Skeleton class="m-3 w-11/12 rounded-lg p-2" />
-		<Skeleton class="m-3 w-5/6 rounded-lg p-2" />
-	</div>
-	{/if}
-	</div>
+			{#if results.fundamentalSummary === '' || results.investmentInsights === '' || results.basicInfo.length === 0}
+				<div class="h-fit p-2">
+					<Skeleton class="mx-4 my-3 w-1/2 px-2 py-5" />
+					<Skeleton class="m-3 w-5/6 rounded-lg p-2" />
+					<Skeleton class="m-3 w-11/12 rounded-lg p-2" />
+					<Skeleton class="m-3 w-5/6 rounded-lg p-2" />
+				</div>
+			{/if}
 
-	<!-- Right Section: News Sentiments -->
-	<div class="right-section no-scrollbar m-1 box-border flex max-h-[100vh] w-1/3 flex-col gap-4 overflow-y-scroll rounded-xl border-2 border-gray-600 p-2">
-		{#if results.news.length > 0}
-			<h1 class="px-4 py-2 text-2xl">News Sentiments</h1>
+
+
+
+		</div>
+
+		<!-- Right Section: News Sentiments -->
+
+			<div class="right-section-dex no-scrollbar m-1 box-border flex max-h-[100vh] w-1/3 flex-col gap-4 overflow-y-scroll rounded-xl border-2 border-gray-600 p-2">
+			{#if results.news.length > 0}
+				<h1 class="px-4 py-2 text-2xl">News Sentiments</h1>
 				<div class="news-section flex h-max w-full flex-col gap-2">
 					{#each results.news as news}
 						<NewsCard {...news} />
@@ -246,6 +282,7 @@
 			{:else}
 				<NewsSkeleton />
 			{/if}
-		</div>
+			</div>
+
 	</div>
 </div>
