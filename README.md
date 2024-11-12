@@ -190,6 +190,10 @@ The website should now be accessible on your local server. Check the terminal ou
 - **Chatbot Assistance**: Use the chatbot located in the bottom right corner to ask any finance or stock market-related questions. The chatbot can provide insights and help with your analysis.
 
 ## Images of our website
+
+<img width="1470" alt="Screenshot 2024-11-12 at 11 29 21 PM" src="https://github.com/user-attachments/assets/0384550a-3066-423d-a898-bb5308fa3913">
+
+
 ![WhatsApp Image 2024-11-08 at 14 02 53_1607ed97](https://github.com/user-attachments/assets/fad8ef18-77fd-4ae7-a472-982efbba170c)
 
 ![WhatsApp Image 2024-11-08 at 14 02 53_01d26f0b](https://github.com/user-attachments/assets/d83756ed-aa4c-420d-958b-07cca2ed9d7b)
