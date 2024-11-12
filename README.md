@@ -1,6 +1,6 @@
 ![WhatsApp Image 2024-11-08 at 14 02 53_b5584ccb](https://github.com/user-attachments/assets/bb5e3bb0-3847-4155-8edb-9212a65c73fc)
 
-#Website link: https://sentifyai.tech/
+# Website link: https://sentifyai.tech/
 
 # SentifyAI: A Functional Platform for Financial News Classification and Sentiment Analysis
 
